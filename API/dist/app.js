@@ -1,29 +1,102 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
 // Instancias para correr el proyecto
-const express_1 = __importDefault(require("express"));
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
-const port = 3000;
-const app = (0, express_1.default)();
-var parking1 = {
-    address: 'direccion 1',
-    ammenities: ['una', 'dos'],
-    score: 4,
-    price: 124,
-    type: 'publico',
-    images: ['foto1', 'foto2', 'foto3'],
-    description: 'is a nice parking'
-};
-// Rutas de los diferentes metodos
-// Ruta obtener toda la información de los parking
+import express from 'express';
+import dotenv from 'dotenv';
+dotenv.config();
+const port = 8080;
+const app = express();
+app.use(express.json());
+let parkings = [
+    {
+        address: 'Street A #35, California, CA,',
+        ammenities: ['Surveillance Cam', 'Apartment', 'Ground Floor', 'Battery-shaped places'],
+        score: 3.8,
+        price: 100,
+        type: 'Public',
+        images: ['foto1', 'foto2', 'foto3'],
+        description: 'Cheap & nice parking with surveillance cameras. Parking on Ground floor'
+    },
+    {
+        address: 'Street B #27, California, CA',
+        ammenities: ['Surveillance Cam', 'Apartment', 'Ground Floor', 'Parking with ceiling'],
+        score: 4.2,
+        price: 175,
+        type: 'Public',
+        images: ['foto1', 'foto2', 'foto3'],
+        description: 'High security parking for those who are looking for his safety.'
+    },
+    {
+        address: 'Street C #7, California, CA',
+        ammenities: ['Surveillance Cam', 'Apartment', 'Ground Floor', 'Parking with ceiling', 'Private Parking Lot'],
+        score: 4.8,
+        price: 200,
+        type: 'Private',
+        images: ['foto1', 'foto2', 'foto3'],
+        description: 'High luxury and security parking. Private parking with surveillance cameras, private parking for your car, aditionali we can wash your car.'
+    }
+];
+// Is my API working?
 app.get('/', (req, res) => {
-    res.send(parking1);
-    console.log(parking1);
+    res.send("Hi! I'm your API and I'm working");
 });
+// Routes for parkings
+// Get all parkings
+app.get('/parkings', (req, res) => {
+    res.send(parkings);
+});
+// Create parkings
+app.post('/add-parking', (req, res) => {
+    console.log("body de la req: ", req.body);
+    addParking(req.body);
+    res.send("-> The new parking has been added");
+});
+app.delete('/delete-parking/:id', (req, res) => {
+    let id = parseInt(req.params.id);
+    deleteParking(id);
+    res.send("Parking " + id + " has been deleted!");
+});
+app.put('/update-parking/:id', (req, res) => {
+    let id = parseInt(req.params.id);
+    updateParking(id, req.body);
+    console.log(parkings);
+    res.send("Is updated");
+});
+app.get('/parkings/:id', (req, res) => {
+    res.send(parkings[req.params.id]);
+});
+// Fuctions
+function deleteParking(id) {
+    console.log("elemento a eliminar-> " + id);
+    parkings.splice(id - 1, 1);
+}
+function addParking(info) {
+    //We asign all the info in each variable
+    parkings.push(buildParking(info)); // We add a new parking
+}
+function updateParking(id, info) {
+    deleteParking(id);
+    let updatedParking = buildParking(info);
+    parkings.splice(id - 1, 0, updatedParking);
+}
+function buildParking(info) {
+    let [address, ammenities, score, price, type, images, description] = [info.address,
+        info.ammenities,
+        info.score,
+        info.price,
+        info.type,
+        info.images,
+        info.description];
+    let new_parkin = {
+        address: address,
+        ammenities: ammenities,
+        score: score,
+        price: price,
+        type: type,
+        images: images,
+        description: description
+    };
+    return new_parkin;
+}
 app.listen(port, () => {
     console.log(`Corriendo en el puerto: ${port}`);
 });
+//# sourceMappingURL=app.js.map
