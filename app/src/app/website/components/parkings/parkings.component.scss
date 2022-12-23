@@ -1,0 +1,38 @@
+.parkingsGrid{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+//Mobile content 
+@media screen and (max-width: 39.9em) {
+    .parkingsGrid{
+        margin-top: 10px;
+        display: flex;
+        grid-template-columns: repeat(1,1fr);
+        grid-gap: 15px;
+        margin-bottom: 10px;
+        align-items: center;
+    }
+}
+//Tablets content
+@media screen and (min-width: 40em) and (max-width: 63.9em) {
+    .parkingsGrid{
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        grid-gap: 15px;
+        margin-top: 10px;
+        align-items: center;
+    }
+}
+
+//Web content
+@media screen and (min-width: 64em){
+    .parkingsGrid{
+        margin-top: 10px;
+        display: grid;
+        grid-template-columns: repeat(5,1fr);
+        grid-gap: 15px;
+    }
+}

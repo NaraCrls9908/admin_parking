@@ -1,0 +1,14 @@
+<div class="card">
+    <!-- <img src="./assets/images/KyC.jpeg" class="card-img-top" alt="..."> -->
+    <div class="card-body">
+      <p class="card-title">{{ parking.address != null ? parking.address : 'ADDRESS NOT FOUND' }} </p>
+      <p class="card-text">Score: {{ parking.score != null ? parking.score : 0 }} </p>
+      <p class="card-text">Type: {{ parking.type != null ? parking.type : 'TYPE NOT FOUND' }} </p>
+      <p class="card-text">Price: {{ parking.price != null ? parking.price : 'PRICE NOT FOUND' }} </p>
+      <p class="card-text">Description: {{ parking.description != null ? parking.description : 'DESCRIPTION NOT FOUND' }} </p>
+      <!-- Button trigger modal -->
+      <!-- <button type="button" (click)="onShowDetail()" class="btn btn-primary">
+        See more info.
+      </button> -->
+    </div>
+</div>
