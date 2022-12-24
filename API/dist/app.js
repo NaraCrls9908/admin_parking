@@ -49,30 +49,49 @@ app.get('/parkings', (req, res) => {
 app.post('/parkings/add', (req, res) => {
     console.log("body de la req: ", req.body);
     addParking(req.body);
+<<<<<<< HEAD
     res.send({ title: "Response of parkings/add", status: "Ok", message: "A new parking has been created.", type: "POST" });
+=======
+    res.send({ title: "Response of parkings/add", status: "Ok", message: "A new parking has been created.", data: parkings[parkings.length - 1], type: "POST" });
+>>>>>>> 82dab86494b29667d592fd6a7c11e72636eeebc1
 });
 // Delete parking
 app.delete('/parkings/delete/:id', (req, res) => {
     let id = parseInt(req.params.id);
     deleteParking(id);
+<<<<<<< HEAD
     res.send({ title: "Response of parkings/delete", status: "Ok", message: "Parking " + id + " has been deleted.", type: "DELETE" });
+=======
+    res.send({ title: "Response of parkings/delete", status: "Ok", message: "Parking " + id + " has been deleted.", data: [], type: "DELETE" });
+>>>>>>> 82dab86494b29667d592fd6a7c11e72636eeebc1
 });
 // Update parking
 app.put('/parkings/update/:id', (req, res) => {
     let id = parseInt(req.params.id);
+<<<<<<< HEAD
     updateParking(id, req.body);
     console.log(parkings);
     res.send({ title: "Response of parkings/update", status: "Ok", message: "Parking " + id + " has been updated.", type: "PUT" });
+=======
+    if (id < parkings.length) {
+        updateParking(id, req.body);
+        res.send({ title: "Response of parkings/update", status: "Ok", message: "Parking " + id + " has been updated.", data: parkings[id - 1], type: "PUT" });
+    }
+    else
+        res.send({ title: "Response of parkings/update", status: "Not Working", message: "Parking " + id + " has not been found.", data: [], type: "PUT" });
+>>>>>>> 82dab86494b29667d592fd6a7c11e72636eeebc1
 });
 // Get a specofic parking
 app.get('/parkings/:id', (req, res) => {
-    let id = parseInt(req.params.id) - 1;
-    res.send({ title: "Response of parkings/update", status: "Ok", message: "Parking " + id + " has been updated.", data: parkings[id], type: "PUT" });
+    let id = parseInt(req.params.id);
+    if (id < parkings.length)
+        res.send({ title: "Response of parkings/byId", status: "Ok", message: "Parking " + id + " has been given.", data: parkings[id - 1], type: "GET" });
+    else
+        res.send({ title: "Response of parkings/byId", status: "Not Working", message: "Parking " + id + " has not been found.", data: [], type: "GET" });
 });
 // Fuctions to manage parkings -> array
 // Delete one element
 function deleteParking(id) {
-    console.log("elemento a eliminar-> " + id);
     parkings.splice(id - 1, 1);
 }
 // Ad one element
@@ -95,7 +114,7 @@ function buildParking(info) {
         info.type,
         info.images,
         info.description];
-    let new_parkin = {
+    let new_parking = {
         address: address,
         ammenities: ammenities,
         score: score,
@@ -104,7 +123,7 @@ function buildParking(info) {
         images: images,
         description: description
     };
-    return new_parkin;
+    return new_parking;
 }
 // Run
 app.listen(port, () => {
