@@ -17,8 +17,8 @@ app.use(cors());
 interface Parking {
     address: String,
     ammenities: String[],
-    score: Number,
-    price: Number,
+    score: number,
+    price: number,
     type: String,
     images: String[],
     description: String
@@ -87,7 +87,7 @@ app.put('/parkings/update/:id', (req, res)=> {
 })
 // Get a specofic parking
 app.get('/parkings/:id', (req, res)=> {
-    res.send(parkings[req.params.id]);
+    res.send(parkings[req.params.id-1]);
 })
 
 
