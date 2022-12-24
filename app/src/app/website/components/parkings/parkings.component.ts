@@ -45,6 +45,11 @@ export class ParkingsComponent {
   
   ngOnInit(){
     this.getParking();
+    $(document).ready(function () {
+      $('#sidebarCollapse').on('click', function () {
+          $('#sidebar').toggleClass('active');
+      });
+    });
   }
 
   getParking(){
