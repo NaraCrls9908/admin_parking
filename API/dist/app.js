@@ -49,24 +49,25 @@ app.get('/parkings', (req, res) => {
 app.post('/parkings/add', (req, res) => {
     console.log("body de la req: ", req.body);
     addParking(req.body);
-    res.send(parkings);
+    res.send('A new parking has been added');
 });
 // Delete parking
 app.delete('/parkings/delete/:id', (req, res) => {
     let id = parseInt(req.params.id);
     deleteParking(id);
-    res.send(parkings);
+    res.send("The parking " + id + " has been deleted");
 });
 // Update parking
 app.put('/parkings/update/:id', (req, res) => {
     let id = parseInt(req.params.id);
     updateParking(id, req.body);
     console.log(parkings);
-    res.send(parkings);
+    res.send("The parking " + id + " has been updated");
 });
 // Get a specofic parking
 app.get('/parkings/:id', (req, res) => {
-    res.send(parkings[req.params.id]);
+    let id = parseInt(req.params.id) - 1;
+    res.send(parkings[id]);
 });
 // Fuctions to manage parkings -> array
 // Delete one element
