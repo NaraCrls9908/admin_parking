@@ -68,13 +68,13 @@ app.get('/parkings', (req, res)=> {
 app.post('/add-parking', (req, res)=> {
     console.log("body de la req: ", req.body);
     addParking(req.body);  
-    res.send("-> The new parking has been added")
+    res.send(parkings)
 })
 
 app.delete('/delete-parking/:id', (req, res)=> {
     let id = parseInt(req.params.id)
     deleteParking(id);
-    res.send("Parking " + id + " has been deleted!");
+    res.send(parkings);
 
 })
 
@@ -83,7 +83,7 @@ app.put('/update-parking/:id', (req, res)=> {
     updateParking(id, req.body);
 
     console.log(parkings);
-    res.send("Is updated");
+    res.send(parkings);
 })
 
 app.get('/parkings/:id', (req, res)=> {
