@@ -87,7 +87,8 @@ app.put('/parkings/update/:id', (req, res)=> {
 })
 // Get a specofic parking
 app.get('/parkings/:id', (req, res)=> {
-    res.send(parkings[req.params.id-1]);
+    let id = parseInt(req.params.id)-1;
+    res.send(parkings[id]);
 })
 
 
