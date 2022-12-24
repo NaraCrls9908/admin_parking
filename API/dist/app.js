@@ -1,10 +1,12 @@
 // Instancias para correr el proyecto
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 dotenv.config();
 const port = 8080;
 const app = express();
 app.use(express.json());
+app.use(cors());
 let parkings = [
     {
         address: 'Street A #35, California, CA,',
