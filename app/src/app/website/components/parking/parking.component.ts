@@ -30,7 +30,7 @@ export class ParkingComponent {
   }
 
   updateParking(){
-
+    console.log()
   }
 
   seeAllInfo(){

@@ -19,11 +19,15 @@ export class ParkingService {
     return this.httpClient.get<ApiResponse>(`${this.apiUrl}/${id}`);
   }
 
+  addParking(data: Parking){
+    return this.httpClient.post<ApiResponse>(`${this.apiUrl}/add`, data);
+  }
+
   deleteParking(id: number){
     return this.httpClient.delete(`${this.apiUrl}/delete/${id}`);
   }
 
-  updateParking(data: Parking){
-    return this.httpClient.put(`${this.apiUrl}/add`, data);
+  updateParking(id:number, data: Parking){
+    return this.httpClient.put(`${this.apiUrl}/update/${id}`, data);
   }
 }
