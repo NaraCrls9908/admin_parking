@@ -7,3 +7,11 @@ export interface Parking{
     images: String[],
     description: String
 }
+
+export interface ApiResponse{
+    title: string,
+    status: string, 
+    message: string,
+    type: string,
+    data: Parking[]
+}

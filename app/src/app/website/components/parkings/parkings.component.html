@@ -1,4 +1,4 @@
 <div class="parkingsGrid">
-    <app-parking *ngFor="let parking of parkings" [parking]="parking"></app-parking>
+    <app-parking *ngFor="let parking of parkings; let i = index" [parking]="parking" [id]="i" ></app-parking>
     <!-- <button class="btn btn-primary"> Add More</button> -->
 </div>

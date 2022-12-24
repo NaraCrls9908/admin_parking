@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Parking } from 'src/app/models/parking.model';
+import { ParkingService } from 'src/app/services/parking.service';
 
 @Component({
   selector: 'app-parking',
@@ -15,5 +16,24 @@ export class ParkingComponent {
       type: "",
       images: [],
       description: ""
+  }
+
+  @Input() id: number = 0;
+
+  constructor(private parkingService: ParkingService){}
+
+  deleteParking(id: number){
+    // console.log(this.parkingId)
+    this.parkingService.deleteParking(id + 1).subscribe(response =>{
+      console.log(response)
+    })
+  }
+
+  updateParking(){
+
+  }
+
+  seeAllInfo(){
+
   }
 }

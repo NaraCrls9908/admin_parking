@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Parking } from 'src/app/models/parking.model';
+import { ApiResponse, Parking } from 'src/app/models/parking.model';
 import { ParkingService } from 'src/app/services/parking.service';
 
 @Component({
@@ -9,6 +9,7 @@ import { ParkingService } from 'src/app/services/parking.service';
 })
 
 export class ParkingsComponent {
+  apiResponse: ApiResponse | null = null;
   parkings: Parking[] = [
     // {
     //   address: "Street A #35, California, CA",
@@ -47,8 +48,9 @@ export class ParkingsComponent {
   }
 
   getParking(){
-    this.parkingService.getAllParkings().subscribe(data =>{
-      this.parkings = data;
+    this.parkingService.getAllParkings().subscribe(response =>{
+      this.apiResponse = response
+      this.parkings = this.apiResponse.data;
     })
   }
 

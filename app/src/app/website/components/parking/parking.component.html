@@ -6,7 +6,7 @@
     <p class="card-text">Price: {{ parking.price != null ? parking.price : 'PRICE NOT FOUND' }} </p>
     <p class="card-text">Description: {{ parking.description != null ? parking.description : 'DESCRIPTION NOT FOUND' }} </p>
     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-inner">
+      <div class="carousel-indicators">
         <div class="carousel-item active">
           <img src="./assets/images/1.jpg" class="d-block w-100" alt="">
         </div>
@@ -32,6 +32,9 @@
         <span class="visually-hidden">Next</span>
       </button>
     </div>
+    <button class="btn btn-danger" (click)="deleteParking(id)" >Delete</button>
+    <button class="btn btn-success" (click)="updateParking()" >Update</button>
+    <button class="btn btn-secondary" (click)="seeAllInfo()" > See more info</button>
     <!-- Button trigger modal -->
     <!-- <button type="button" (click)="onShowDetail()" class="btn btn-primary">
       See more info.
