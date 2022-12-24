@@ -43,31 +43,31 @@ app.get('/', (req, res) => {
 // Routes for parkings
 // Get all parkings
 app.get('/parkings', (req, res) => {
-    res.send(parkings);
+    res.send({ title: "Response of parkings/", status: "Ok", message: "Data of parkings has been given.", data: parkings, type: "GET" });
 });
 // Create parking
 app.post('/parkings/add', (req, res) => {
     console.log("body de la req: ", req.body);
     addParking(req.body);
-    res.send('A new parking has been added');
+    res.send({ title: "Response of parkings/add", status: "Ok", message: "A new parking has been created.", data: null, type: "POST" });
 });
 // Delete parking
 app.delete('/parkings/delete/:id', (req, res) => {
     let id = parseInt(req.params.id);
     deleteParking(id);
-    res.send("The parking " + id + " has been deleted");
+    res.send({ title: "Response of parkings/delete", status: "Ok", message: "Parking " + id + " has been deleted.", data: null, type: "DELETE" });
 });
 // Update parking
 app.put('/parkings/update/:id', (req, res) => {
     let id = parseInt(req.params.id);
     updateParking(id, req.body);
     console.log(parkings);
-    res.send("The parking " + id + " has been updated");
+    res.send({ title: "Response of parkings/update", status: "Ok", message: "Parking " + id + " has been updated.", data: null, type: "PUT" });
 });
 // Get a specofic parking
 app.get('/parkings/:id', (req, res) => {
     let id = parseInt(req.params.id) - 1;
-    res.send(parkings[id]);
+    res.send({ title: "Response of parkings/update", status: "Ok", message: "Parking " + id + " has been updated.", data: parkings[id], type: "PUT" });
 });
 // Fuctions to manage parkings -> array
 // Delete one element
