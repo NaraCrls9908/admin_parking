@@ -93,7 +93,7 @@ app.put('/parkings/update/:id', (req, res)=> {
 app.get('/parkings/get-one/:id', (req, res)=> {
     let id = parseInt(req.params.id);
     if(id < parkings.length) 
-        res.send({title: "Response of parkings/byId", status: "Ok", message: "Parking " + id + " has been given.", data: parkings[id-1], type: "GET"});
+        res.send({title: "Response of parkings/byId", status: "Ok", message: "Parking " + id + " has been given.", data: parkings[id], type: "GET"});
     else
         res.send({title: "Response of parkings/byId", status: "Not Working", message: "Parking " + id + " has not been found.", data: [], type: "GET"});
 });

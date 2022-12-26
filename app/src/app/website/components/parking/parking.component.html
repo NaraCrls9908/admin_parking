@@ -1,73 +1,24 @@
 <div class="card" >
   <div class="row">
     <div class="col-4">
-      <img class="card-img-top" src="./assets/images/5.jpg" alt="Card image cap">
+      <img class="img-fluid" src="./assets/images/5.jpg" alt="Card image cap">
     </div>
-    <div class="col-8">
-      
-  <div class="card-body">
-    <p class="card-title">{{ parking.address != null ? parking.address : 'ADDRESS NOT FOUND' }} </p>
-    <p class="card-text">Score: {{ parking.score != null ? parking.score : 0 }} </p>
-    <p class="card-text">Type: {{ parking.type != null ? parking.type : 'TYPE NOT FOUND' }} </p>
-    <p class="card-text">Price: {{ parking.price != null ? parking.price : 'PRICE NOT FOUND' }} </p>
-    <p class="card-text">Description: {{ parking.description != null ? parking.description : 'DESCRIPTION NOT FOUND' }} </p>
+    <div class="col-8">  
+      <div class="card-body">
+        <p class="card-title">{{ parking.address != null ? parking.address : 'ADDRESS NOT FOUND' }} </p>
+        <p class="card-text">Score: {{ parking.score != null ? parking.score : 0 }} </p>
+        <p class="card-text">Type: {{ parking.type != null ? parking.type : 'TYPE NOT FOUND' }} </p>
+        <p class="card-text">Price: {{ parking.price != null ? parking.price : 'PRICE NOT FOUND' }} </p>
+        <p class="card-text">Description: {{ parking.description != null ? parking.description : 'DESCRIPTION NOT FOUND' }} </p>
+      </div>
     </div>
-  </div>
   </div>
   <div class="card-footer align-content-end">
     <div class="row">
       <div class="offset-9 col-3">
-        <button class="btn btn-secondary m-2"  (click)="toggleParkingDetail()">Edit or Delete</button>
+        <button class="btn btn-secondary m-2"  (click)="onShowDetail()">Edit or Delete</button>
       </div>
     </div>
   </div>
 </div>
 
-<div class="parking-detail" [class.active]="showParkingDetail">
-  <div *ngIf="showParkingDetail"> 
-      <button (click)="toggleParkingDetail()">Close</button>
-      <h1>Parking {{id + 1}} </h1>
-      <div class="modal-body">
-        <div>
-            <label for="">Address: </label>
-            <input type="text" name="address" [formControl]="address" id="address">
-        </div>
-        <div>
-            <label for="">Ammenities: </label>
-            <select name="amenities" multiple id="amenities" [formControl]="amenities">
-              <option value="Surveillance Cam">Surveillance Cam</option>
-              <option value="Apartment">Apartment</option>
-              <option value="Private Parking Lot">Private Parking Lot</option>
-              <option value="Parking With Ceiling">Parking With Ceiling</option>
-              <option value="Ground Floor">Ground Floor</option>
-              <option value="Battery-shaped places">Battery-shaped places</option>
-          </select>
-        </div>
-        <div>
-            <label for="">Score: </label>
-            <input type="number" name="score" [formControl]="score" id="score">
-        </div>
-        <div>
-            <label for="">Price: </label>
-            <input type="number" name="price" [formControl]="price" id="price">
-        </div>
-        <div>
-            <label for="">Type: </label>
-            <select name="type" id="type" [formControl]="type">
-                <option value="Public">Public</option>
-                <option value="Private">Private</option>
-            </select>
-        </div>
-        <div>
-            <label for="">Images: </label>
-            <input type="text" name="images" [formControl]="images" id="images">
-        </div>
-        <div>
-            <label for="">Description: </label>
-            <input type="text" name="description" [formControl]="description" id="description">
-        </div>
-    </div>
-      <button class="btn btn-danger m-2" (click)="deleteParking(id)" >Delete</button>
-      <button class="btn btn-secondary m-2"  (click)="updateParking(id)" >Update</button>
-  </div>
-</div>

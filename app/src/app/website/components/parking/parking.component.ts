@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ApiResponse, Parking } from 'src/app/models/parking.model';
 import { ParkingService } from 'src/app/services/parking.service';
 import { FormControl } from '@angular/forms';
@@ -29,7 +29,6 @@ export class ParkingComponent {
     data: []
   };
 
-  showParkingDetail = false;
   address = new FormControl();
   amenities = new FormControl();
   score = new FormControl();
@@ -38,83 +37,14 @@ export class ParkingComponent {
   images = new FormControl();
   description = new FormControl();
 
+  @Output() parkingId = new EventEmitter<number>(); 
+
   constructor(private parkingService: ParkingService){}
 
   ngOnInit(){
-    this.address.setValue(this.parking.address);
-    this.amenities.setValue(this.parking.amenities);
-    this.score.setValue(this.parking.score);
-    this.price.setValue(this.parking.price);
-    this.type.setValue(this.parking.type);
-    this.images.setValue(this.parking.images);
-    this.description.setValue(this.parking.description);
-
   }
 
-  deleteParking(id: number){
-    // console.log(this.parkingId)
-    this.parkingService.deleteParking(id + 1).subscribe(response =>{
-      if(response.status == "Ok" ){
-        this.apiResponse = response;
-        Swal.fire({
-          icon: 'success' ,
-          title: 'Parking has created!',
-          text: this.apiResponse.message,
-        })
-        window.setInterval(() =>{
-          location.reload();
-        }, 1000);
-      }
-
-      if(response.status == "Failed"){
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: this.apiResponse.message,
-        })
-      }
-    })
-  }
-
-  updateParking(id: number){
-    this.parking.address = this.address.value;
-    this.parking.amenities = this.amenities.value;
-    this.parking.score = this.score.value;
-    this.parking.price = this.price.value;
-    this.parking.type = this.type.value;
-    this.parking.images = this.images.value;
-    this.parking.description = this.description.value;
-
-    console.log(id)
-    let idAux = id + 1
-    this.parkingService.updateParking(id, this.parking).subscribe(response =>{
-
-
-      if(response.status == "Ok" ){
-        this.apiResponse = response;
-        Swal.fire({
-          icon: 'success' ,
-          title: 'Parking has created!',
-          text: this.apiResponse.message,
-        })
-        window.setInterval(() =>{
-          location.reload();
-        }, 1000);
-      }
-
-      if(response.status == "Failed"){
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: this.apiResponse.message,
-        })
-      }
-
-    })
-
-  }
-
-  toggleParkingDetail(){
-    this.showParkingDetail = !this.showParkingDetail;
+  onShowDetail(){
+    this.parkingId.emit(this.id);
   }
 }

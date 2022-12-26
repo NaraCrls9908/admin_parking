@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { ApiResponse, Parking } from '../models/parking.model';
+import { ApiResponse, ApiResponseOne, Parking } from '../models/parking.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -16,7 +16,7 @@ export class ParkingService {
   }
 
   getParkingById(id: number){
-    return this.httpClient.get<ApiResponse>(`${this.apiUrl}/get-one/${id}`);
+    return this.httpClient.get<ApiResponseOne>(`${this.apiUrl}/get-one/${id}`);
   }
 
   addParking(data: Parking){

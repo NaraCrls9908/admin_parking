@@ -1,6 +1,6 @@
 <header>
     <nav class="navbar navbar-light bg-light pt-2">
-        <span class="navbar-brand mb-0 h1">Nombre Aquí</span>
+        <span class="navbar-brand mb-0 h1">Parkings</span>
     </nav>
 </header>
 
@@ -108,12 +108,63 @@
     <div id="content">
         <app-nav></app-nav>
         <div class="parkingsGrid">
-            <app-parking *ngFor="let parking of parkings; let i = index" [parking]="parking" [id]="i" ></app-parking>
+            <app-parking (parkingId)="onShowDetail($event)" class="parking" *ngFor="let parking of parkings; let i = index" [parking]="parking" [id]="i" ></app-parking>
         </div>
         <div class="parkingsGrid" *ngIf="aux_filters == 2">
             <h5>Data not found</h5>
         </div>
 </div>
 
+
+<div class="parking-detail" [class.active]="showParkingDetail">
+    <div *ngIf="showParkingDetail"> 
+        <button class="btn-close" (click)="toggleParkingDetail()"></button>
+        <h1>Parking {{parkingId + 1}} </h1>
+        <div class="modal-body">
+          <div>
+              <label  class="form-label" for="">Address: </label>
+              <input class="form-control" type="text" name="address" [formControl]="address" id="address">
+          </div>
+          <div>
+              <label  class="form-label" for="">Ammenities: </label>
+              <select class="form-control" name="amenities" multiple id="amenities" [formControl]="amenities">
+                  <option selected>Open this select amenities</option>
+                  <option value="Surveillance Cam">Surveillance Cam</option>
+                  <option value="Apartment">Apartment</option>
+                  <option value="Private Parking Lot">Private Parking Lot</option>
+                  <option value="Parking With Ceiling">Parking With Ceiling</option>
+                  <option value="Ground Floor">Ground Floor</option>
+                  <option value="Battery-shaped places">Battery-shaped places</option>
+              </select>
+          </div>
+          <div>
+              <label  class="form-label" for="">Score: </label>
+              <input class="form-control" type="number" min="0" max="5" name="score" [formControl]="score" id="score">
+          </div>
+          <div>
+              <label  class="form-label" for="">Price: </label>
+              <input class="form-control" type="number" name="price" [formControl]="price" id="price">
+          </div>
+          <div>
+              <label  class="form-label" for="">Type: </label>
+              <select class="form-control" name="inType" id="inType" [formControl]="inType">
+                  <option value="Public">Public</option>
+                  <option value="Private">Private</option>
+              </select>
+          </div>
+          <div>
+              <label  class="form-label" for="">Images: </label>
+              <!-- <input class="form-control" type="file" multiple name="images" [formControl]="images" id="images"> -->
+                <input class="form-control" type="text" name="images" [formControl]="images" id="images">
+          </div>
+          <div>
+              <label  class="form-label" for="">Description: </label>
+              <textarea class="form-control" type="text" name="description" [formControl]="description" id="description"></textarea>
+          </div>
+      </div>
+        <button class="btn btn-danger m-2" (click)="deleteParking()" >Delete</button>
+        <button class="btn btn-secondary m-2"  (click)="updateParking()" >Update</button>
+    </div>
+</div>
 
  

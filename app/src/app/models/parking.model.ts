@@ -15,3 +15,11 @@ export interface ApiResponse{
     type: string,
     data: Parking[]
 }
+
+export interface ApiResponseOne{
+    title: string,
+    status: string, 
+    message: string,
+    type: string,
+    data: Parking
+}

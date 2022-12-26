@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { ApiResponse, Parking } from 'src/app/models/parking.model';
+import { ApiResponse, ApiResponseOne, Parking } from 'src/app/models/parking.model';
 import { ParkingService } from 'src/app/services/parking.service';
 import { FormControl } from '@angular/forms';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-parkings',
   templateUrl: './parkings.component.html',
@@ -11,6 +12,32 @@ import { FormControl } from '@angular/forms';
 export class ParkingsComponent {
   apiResponse: ApiResponse | null = null;
   parkings: Parking[] = [];
+
+  parkingResponse: ApiResponseOne = {
+    title: '',
+    status: '', 
+    message: '',
+    type: '',
+    data: {
+      address: "",
+      amenities: [],
+      score: 0,
+      price: 0,
+      type: "",
+      images: [],
+      description: ""
+    }
+  };
+
+  parking: Parking = {
+    address: "",
+    amenities: [],
+    score: 0,
+    price: 0,
+    type: "",
+    images: [],
+    description: ""
+  }
 
   type = new FormControl();
 
@@ -25,7 +52,18 @@ export class ParkingsComponent {
   max_cost = new FormControl();
 
   aux_filters: number = 0;
+
   
+  address = new FormControl();
+  amenities = new FormControl();
+  score = new FormControl();
+  price = new FormControl();
+  inType = new FormControl();
+  images = new FormControl();
+  description = new FormControl();
+
+  showParkingDetail = false;
+  parkingId: number = 0;
 
   constructor(private parkingService: ParkingService){}
   
@@ -94,5 +132,91 @@ export class ParkingsComponent {
     });
 
     if(this.parkings.length == 0) this.aux_filters = 2;
+  }
+
+  deleteParking(){
+    const id = this.parkingId
+    console.log('Funcion delete - id ' + id)
+    this.parkingService.deleteParking(id + 1).subscribe(response =>{
+      console.log(response)
+      if(response.status == "Ok" ){
+        this.apiResponse = response;
+        Swal.fire({
+          icon: 'success' ,
+          title: 'Parking has created!',
+          text: this.apiResponse.message,
+        })
+        window.setInterval(() =>{
+          location.reload();
+        }, 1000);
+      }
+
+      if(response.status == "Failed"){
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+        })
+      }
+    })
+  }
+
+  updateParking(){
+    const id = this.parkingId
+    console.log('Funcion update - id ' + id)
+    this.parking.address = this.address.value;
+    this.parking.amenities = this.amenities.value;
+    this.parking.score = this.score.value;
+    this.parking.price = this.price.value;
+    this.parking.type = this.type.value;
+    this.parking.images = this.images.value;
+    this.parking.description = this.description.value;
+    
+    let idAux = id + 1
+    this.parkingService.updateParking(id, this.parking).subscribe(response =>{
+      console.log(response)
+      
+
+      if(response.status == "Ok" ){
+        this.apiResponse = response;
+        Swal.fire({
+          icon: 'success' ,
+          title: 'Parking has created!',
+          text: this.apiResponse.message,
+        })
+        window.setInterval(() =>{
+          location.reload();
+        }, 1000);
+      }
+
+      if(response.status == "Failed"){
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+        })
+      }
+
+    })
+
+  }
+
+  onShowDetail(id:number){
+    this.parkingId = id;
+    console.log('Funcion showDetail - id ' + id)
+    this.parkingService.getParkingById(id).subscribe(response =>{
+      this.parkingResponse = response;
+      this.parking = response.data;
+      this.address.setValue(this.parking.address);
+      this.amenities.setValue(this.parking.amenities);
+      this.score.setValue(this.parking.score);
+      this.price.setValue(this.parking.price);
+      this.inType.setValue(this.parking.type);
+      this.images.setValue(this.parking.images);
+      this.description.setValue(this.parking.description);
+      this.toggleParkingDetail();
+    });
+  }
+
+  toggleParkingDetail(){
+    this.showParkingDetail = !this.showParkingDetail;
   }
 }
