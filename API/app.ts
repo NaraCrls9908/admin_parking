@@ -80,7 +80,6 @@ app.post('/parkings/add', (req, res)=> {
 // Delete parking
 app.delete('/parkings/delete/:id', (req, res)=> {
     let id = parseInt(req.params.id)
-    console.log(id);
     deleteParking(id);
     res.send({title: "Response of parkings/delete", status: "Ok", message: "Parking " + id + " has been deleted.", data: [], type: "DELETE"});
 
@@ -89,7 +88,7 @@ app.delete('/parkings/delete/:id', (req, res)=> {
 app.put('/parkings/update/:id', (req, res)=> {
     let id = parseInt(req.params.id);
     if (updateParking(parseInt(req.params.id), req.body))
-            res.send({title: "Response of parkings/update", status: "Ok", message: "Parking " + (id + 1) + " has been updated.", data: parkings[id], type: "PUT"});
+            res.send({title: "Response of parkings/update", status: "Ok", message: "Parking " + (id) + " has been updated.", data: parkings[id], type: "PUT"});
     else 
         res.send({title: "Response of parkings/update", status: "Failed", message: "The parking couldn't be updated.", data: [], type: "PUT"})
 })
@@ -136,12 +135,8 @@ function deleteParking(id:number) {
 
 function getOneParking(id){
     let oneParking: Parking;
-    console.log("id en get one "+id);
     parkings.forEach((parking) => {
-        console.log("id del parking-> " + parking.id);
-        console.log("id a comparar -> " + id);
         if(parking.id == id) {
-            console.log(parking);
             oneParking = parking;
         }
     });
@@ -154,6 +149,8 @@ function addParking(info) {
     //We asign all the info in each variable
     let new_parking = buildParking(info);
     if(new_parking) {
+        let id = parkings[parkings.length-1].id+ 1;
+        new_parking.id = id;
         parkings.push(new_parking); // We add a new parking
         return true
     }   
@@ -162,18 +159,23 @@ function addParking(info) {
 }
 // Delete and add one element in a specific position
 function updateParking(id:number, info) {
-    deleteParking(id);
-    let updatedParking = buildParking(info)
-    if(updatedParking) {
-        parkings.splice(id, 0, updatedParking); // We add the updated parking in the same position
-        return true;
-    }
+    parkings.forEach((parking, i) => {
+        if(parking.id == id) {
+            let updatedParking = buildParking(info, id)  
+            if(updatedParking) {
+                deleteParking(id);
+                parkings.splice(i, 0, updatedParking); // We add the updated parking in the same position
+                return true;
+            }
+        }
+    });
     
-    return false;
+    
+    return true;
 }
 // Build a new parking object
-function buildParking(info) {
-    let [id, address, amenities, score, price, type, images, description] =[info.id,
+function buildParking(info, id?:number) {
+    let [address, amenities, score, price, type, images, description] =[
                                                                         info.address, 
                                                                         info.amenities, 
                                                                         info.score,
@@ -181,17 +183,19 @@ function buildParking(info) {
                                                                         info.type,
                                                                         info.images,
                                                                         info.description]
-
-        let new_parking: Parking = {
-            id: id,
-            address: address,
-            amenities: amenities,
-            score: score,
-            price: price,
-            type: type,
-            images: images,
-            description: description
-        } 
+    
+    
+    
+    let new_parking: Parking = {
+        id: id != null ? id : null,
+        address: address,
+        amenities: amenities,
+        score: score,
+        price: price,
+        type: type,
+        images: images,
+        description: description
+    } 
     return validateParking(new_parking) ? new_parking : null;
 }
 
