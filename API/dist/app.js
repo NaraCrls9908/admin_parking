@@ -43,9 +43,9 @@ app.get('/', (req, res) => {
 });
 // Routes for parkings
 // Get all parkings
-/* app.get('/parkings', (req, res)=> {
-    res.send({title: "Response of parkings/", status: "Ok", message: "Data of parkings has been given.", data: parkings, type: "GET"});
-}) */
+app.get('/parkings', (req, res) => {
+    res.send({ title: "Response of parkings/", status: "Ok", message: "Data of parkings has been given.", data: parkings, type: "GET" });
+});
 // Create parking
 app.post('/parkings/add', (req, res) => {
     console.log("body de la req: ", req.body);
@@ -79,24 +79,22 @@ app.get('/parkings/get-one/:id', (req, res) => {
         res.send({ title: "Response of parkings/byId", status: "Not Working", message: "Parking " + id + " has not been found.", data: [], type: "GET" });
 });
 // Get parking filtered by Min and Max
-app.get('/parkings/', (req, res) => {
+app.get('/parkings/filters', (req, res) => {
     parkings_filtered = parkings;
     // We asing the params
-    if (req.query) {
-        let min_cost = parseFloat(req.query.min_cost.toString());
-        let max_cost = parseFloat(req.query.max_cost.toString());
-        let type = req.query.type.toString();
-        let amenities = req.query.amenities.toString();
-        // NaN to null in MIN and MAX cost
-        if (isNaN(min_cost))
-            min_cost = null;
-        if (isNaN(max_cost))
-            max_cost = null;
-        // We work the parkings_filtered to be filter
-        filterByMinMaxCost(min_cost, max_cost);
-        filterByType(type);
-        filterByAmenities(amenities);
-    }
+    let min_cost = parseFloat(req.query.min_cost.toString());
+    let max_cost = parseFloat(req.query.max_cost.toString());
+    let type = req.query.type.toString();
+    let amenities = req.query.amenities.toString();
+    // NaN to null in MIN and MAX cost
+    if (isNaN(min_cost))
+        min_cost = null;
+    if (isNaN(max_cost))
+        max_cost = null;
+    // We work the parkings_filtered to be filter
+    filterByMinMaxCost(min_cost, max_cost);
+    filterByType(type);
+    filterByAmenities(amenities);
     if (parkings_filtered.length <= 0)
         res.send({ title: "Response of parkings/filtered", status: "Failed", message: "Data not found", data: parkings_filtered, type: "GET" });
     else
