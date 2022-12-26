@@ -51,8 +51,8 @@ p {
 #sidebar {
     min-width: 250px;
     max-width: 250px;
-    background: #bdc9fd;
-    color: #fff;
+    border-right: 0.3vw double  rgba(12, 88, 252, 0.219);
+    color: rgb(77, 77, 77);
     transition: all 0.3s;
 }
 
@@ -62,7 +62,7 @@ p {
 
 #sidebar .sidebar-header {
     padding: 20px;
-    background: #6b86ff;
+    background: rgba(33, 66, 255, 0.171);
 }
 
 #sidebar ul.components {

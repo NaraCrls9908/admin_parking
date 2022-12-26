@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ApiResponse, Parking } from 'src/app/models/parking.model';
 import { ParkingService } from 'src/app/services/parking.service';
-
+import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-parkings',
   templateUrl: './parkings.component.html',
@@ -10,35 +10,20 @@ import { ParkingService } from 'src/app/services/parking.service';
 
 export class ParkingsComponent {
   apiResponse: ApiResponse | null = null;
-  parkings: Parking[] = [
-    // {
-    //   address: "Street A #35, California, CA",
-    //   ammenities: ["Surveillance cameras","Covered drawer","Department","Low level","Closed parking","Place in battery"],
-    //   score: 5,
-    //   price: 100,
-    //   type: "Public",
-    //   images: ["1.jpg","2.jpg","3.jpg","4.jpg","5.jpg"],
-    //   description: "The best of all the parking lots you can find, this one meets all the amenities."
-    // },
-    // {
-    //   address: "Street B #27, California, CA",
-    //   ammenities: ["Surveillance cameras","Covered drawer","Department","Low level"],
-    //   score: 3.8,
-    //   price: 175,
-    //   type: "Private",
-    //   images: ["1.jpg","2.jpg","3.jpg","4.jpg","5.jpg"],
-    //   description: "Good parking lot that fulfills its purpose, in addition to being guarded and has apartments"
-    // },
-    // {
-    //   address: "Street C #7, California, CA",
-    //   ammenities: ["Closed parking","Place in battery"],
-    //   score: 2.6,
-    //   price: 200,
-    //   type: "Public",
-    //   images: ["1.jpg","2.jpg","3.jpg","4.jpg","5.jpg"],
-    //   description: "Simple parking, serves its main purpose"
-    // }, 
-  ];
+  parkings: Parking[] = [];
+
+  type = new FormControl();
+
+  surv_cam = new FormControl();
+  apartment = new FormControl();
+  private_parking = new FormControl();
+  parking_ceiling = new FormControl();
+  ground_floor = new FormControl();
+  battery = new FormControl();
+
+  min_cost = new FormControl();
+  max_cost = new FormControl();
+  
 
   constructor(private parkingService: ParkingService){}
   
@@ -60,6 +45,33 @@ export class ParkingsComponent {
   }
 
   updateParking(){
+    let type = this.type.value;
+    let min_cost = this.min_cost.value;
+    let max_cost = this.max_cost.value;
+    
+    let surv_cam, apartment, private_parking, parking_ceiling,
+        ground_floor, battery, amenities;
+
+    surv_cam = this.surv_cam.value ? "Surveillance Camera" : null;
+    apartment = this.apartment.value ? "Apartment" : null;
+    private_parking = this.private_parking.value ? "Private Parking Lot" : null;
+    parking_ceiling = this.parking_ceiling.value ? "Parking With Ceiling" : null;
+    ground_floor = this.ground_floor.value ? "Ground Floor" : null;
+    battery = this.battery.value ? "Battery-shaped places" : null;
+
+    amenities = surv_cam ? surv_cam + "," : "",
+    amenities += apartment ? apartment + "," : "",
+    amenities += private_parking ? private_parking + "," : "",
+    amenities += parking_ceiling ? parking_ceiling + "," : "",
+    amenities += ground_floor ? ground_floor + "," : "",
+    amenities += battery ? battery + "," : "",
+
+    
+    this.parkingService.getParkingsFilters(min_cost, max_cost, type, amenities).subscribe(response =>{
+      this.apiResponse = response
+      console.log(this.apiResponse.data);
+    })
+
 
   }
 }

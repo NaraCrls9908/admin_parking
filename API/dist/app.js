@@ -80,7 +80,6 @@ app.get('/parkings/get-one/:id', (req, res) => {
 });
 // Get parking filtered by Min and Max
 app.get('/parkings/filters', (req, res) => {
-    parkings_filtered = parkings;
     // We asing the params
     let min_cost = parseFloat(req.query.min_cost.toString());
     let max_cost = parseFloat(req.query.max_cost.toString());
@@ -95,10 +94,10 @@ app.get('/parkings/filters', (req, res) => {
     filterByMinMaxCost(min_cost, max_cost);
     filterByType(type);
     filterByAmenities(amenities);
-    if (parkings_filtered.length <= 0)
-        res.send({ title: "Response of parkings/filtered", status: "Failed", message: "Data not found", data: parkings_filtered, type: "GET" });
+    if (parkings_filtered.length < 0)
+        res.send({ title: "Response of parkings/filtered", status: "Failed", message: "Data not found", data: [], type: "GET" });
     else
-        res.send({ title: "Response of parkings/filtered", status: "Ok", message: "Data of parkings with filters has been given.", data: parkings, type: "GET" });
+        res.send({ title: "Response of parkings/filtered", status: "Ok", message: "Data of parkings with filters has been given.", data: parkings_filtered, type: "GET" });
 });
 // Fuctions to manage parkings -> array
 // Delete one element
@@ -159,43 +158,46 @@ function validateParking(parking) {
     return false;
 }
 function filterByMinMaxCost(min_cost, max_cost) {
+    console.log(min_cost + "   -    " + max_cost);
     if (min_cost != null && max_cost != null)
-        return parkings_filtered = parkings.filter(parking => parking.price >= min_cost && parking.price <= max_cost);
+        parkings_filtered = parkings.filter(parking => parking.price >= min_cost && parking.price <= max_cost);
     else if (min_cost != null)
-        return parkings_filtered = parkings.filter(parking => parking.price >= min_cost);
+        parkings_filtered = parkings.filter(parking => parking.price >= min_cost);
     else if (max_cost != null)
-        return parkings_filtered = parkings.filter(parking => parking.price <= max_cost);
+        parkings_filtered = parkings.filter(parking => parking.price <= max_cost);
     else // Here we have no filters
-        return parkings;
+        parkings_filtered = parkings;
+    console.log(parkings_filtered);
 }
 function filterByType(type) {
-    if (parkings_filtered != null) {
-        if (type)
-            return parkings_filtered = parkings_filtered.filter(parking => parking.type == type);
-    }
-    else {
-        if (type)
-            return parkings_filtered = parkings.filter(parking => parking.type == type);
-    }
-    return parkings; // Here we have no filters;
+    console.log(type);
+    if (type)
+        parkings_filtered = parkings_filtered.filter(parking => parking.type == type);
+    console.log(parkings_filtered);
 }
 function filterByAmenities(amenitiesArg) {
-    let amenities = amenitiesArg.split(",");
-    amenities = amenities.map(amenitie => amenitie.trim());
     let parkings_aux = [];
-    if (amenities) {
+    if (amenitiesArg) {
+        let amenities = amenitiesArg.split(",");
+        console.log("mis amenities aqui ->" + amenities);
+        console.log("entramos en la condicion");
         parkings_filtered.forEach(parking => {
             amenities.forEach(amenitie => {
-                if (parking.amenities.includes(amenitie)) {
+                console.log("filtradas-> " + parking.amenities);
+                console.log("amenitie a comparar -> " + amenitie.trim());
+                if (parking.amenities.includes(amenitie.trim()))
                     parkings_aux.push(parking);
-                }
             });
         });
-        return parkings_filtered = parkings_aux.filter((item, index) => {
-            return parkings_aux.indexOf(item) === index;
+        parkings_filtered = parkings_aux.filter((item, index) => {
+            return parkings_aux.indexOf(item) == index;
         });
     }
-    return parkings; // Here we have no filters
+    else {
+        parkings_filtered = parkings_filtered;
+    }
+    console.log("este es el aux " + parkings_aux);
+    console.log("este es el bueno -> " + parkings_filtered);
 }
 // Run
 app.listen(port, () => {

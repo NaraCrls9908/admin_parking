@@ -99,8 +99,8 @@ app.get('/parkings/get-one/:id', (req, res)=> {
         res.send({title: "Response of parkings/byId", status: "Not Working", message: "Parking " + id + " has not been found.", data: [], type: "GET"});
 });
 // Get parking filtered by Min and Max
-app.get('/parkings/filters', (req, res)=> {
-    parkings_filtered = parkings;
+app.get('/parkings/filters', (req, res)=> {                     
+    
     // We asing the params
     let min_cost = parseFloat(req.query.min_cost.toString());
     let max_cost = parseFloat(req.query.max_cost.toString());
@@ -114,10 +114,10 @@ app.get('/parkings/filters', (req, res)=> {
     filterByType(type);
     filterByAmenities(amenities);
     
-    if(parkings_filtered.length <= 0)
-        res.send({title: "Response of parkings/filtered", status: "Failed", message: "Data not found", data: parkings_filtered, type: "GET"})
+    if(parkings_filtered.length < 0)
+        res.send({title: "Response of parkings/filtered", status: "Failed", message: "Data not found", data: [], type: "GET"})
     else
-        res.send({title: "Response of parkings/filtered", status: "Ok", message: "Data of parkings with filters has been given.", data: parkings, type: "GET"});
+        res.send({title: "Response of parkings/filtered", status: "Ok", message: "Data of parkings with filters has been given.", data: parkings_filtered, type: "GET"});
 
 })
 
@@ -188,50 +188,40 @@ function validateParking(parking:Parking) {
 }
 
 function filterByMinMaxCost(min_cost:number, max_cost:number) {
-    
     if (min_cost != null && max_cost != null)
-        return parkings_filtered = parkings.filter(parking => parking.price >= min_cost && parking.price <= max_cost);
+        parkings_filtered = parkings.filter(parking => parking.price >= min_cost && parking.price <= max_cost);
     else if(min_cost != null)
-        return parkings_filtered = parkings.filter(parking => parking.price >= min_cost);
+        parkings_filtered = parkings.filter(parking => parking.price >= min_cost);
     else if(max_cost != null)
-        return parkings_filtered = parkings.filter(parking => parking.price <= max_cost);
+        parkings_filtered = parkings.filter(parking => parking.price <= max_cost);
     else // Here we have no filters
-        return parkings;
+        parkings_filtered = parkings;
 }
 
 function filterByType(type:string) {
-    if(parkings_filtered != null) {
-        if(type)
-            return parkings_filtered = parkings_filtered.filter(parking => parking.type == type);
-    }else {
-        if(type)
-            return parkings_filtered = parkings.filter(parking => parking.type == type);
-    }
-    return parkings // Here we have no filters;
+    console.log(type);
+    if(type)
+        parkings_filtered = parkings_filtered.filter(parking => parking.type == type);
 }
 
-function filterByAmenities(amenitiesArg:string) {
-    
-    let amenities = amenitiesArg.split(",");
-    amenities = amenities.map(amenitie => amenitie.trim())
+function filterByAmenities(amenitiesArg:string) {  
     let parkings_aux: Parking[] = [];
-    if(amenities) {
+    if(amenitiesArg) {
+        let amenities = amenitiesArg.split(",");
         parkings_filtered.forEach(parking => {
             amenities.forEach(amenitie => {
-                if(parking.amenities.includes(amenitie)) {
-                    parkings_aux.push(parking);
-                }
+                console.log("filtradas-> " + parking.amenities);
+                console.log("amenitie a comparar -> " + amenitie.trim());
+                if(parking.amenities.includes(amenitie.trim())) parkings_aux.push(parking);
             })
         })
     
-        return parkings_filtered = parkings_aux.filter((item,index)=>{
-            return parkings_aux.indexOf(item) === index;
+        parkings_filtered = parkings_aux.filter((item, index)=>{
+            return parkings_aux.indexOf(item) == index;
         });
+    }else {
+        parkings_filtered = parkings_filtered;
     }
-
-    return parkings; // Here we have no filters
-
-    
 }
 
 // Run
