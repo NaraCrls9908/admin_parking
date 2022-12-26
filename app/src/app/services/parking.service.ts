@@ -28,6 +28,7 @@ export class ParkingService {
   }
 
   updateParking(id:number, data: Parking){
+    console.log("vamos a ver la data -> " + data);
     return this.httpClient.put<ApiResponse>(`${this.apiUrl}/update/${id}`, data);
   }
 

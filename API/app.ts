@@ -14,6 +14,7 @@ app.use( express.json());
 app.use(cors());
 
 interface Parking {
+    id: number
     address: String,
     amenities: String[],
     score: number,
@@ -25,6 +26,7 @@ interface Parking {
 
 let parkings: Parking[]= [
     {
+        id: 123,
         address: 'Street A #35, California, CA,',
         amenities: ['Surveillance Cam', 'Apartment', 'Ground Floor', 'Battery-Shaped Places'],
         score: 3.8,
@@ -34,6 +36,7 @@ let parkings: Parking[]= [
         description: 'Cheap & nice parking with surveillance cameras. Parking on Ground floor'
     },
     {
+        id: 234,
         address: 'Street B #27, California, CA',
         amenities: ['Surveillance Cam', 'Apartment', 'Parking With Ceiling'],
         score: 4.2,
@@ -43,6 +46,7 @@ let parkings: Parking[]= [
         description: 'High security parking for those who are looking for his safety.'
     },
     {
+        id: 345,
         address: 'Street C #7, California, CA',
         amenities: ['Surveillance Cam', 'Apartment', 'Ground Floor', 'Parking With Ceiling', 'Private Parking Lot'],
         score: 4.8,
@@ -76,30 +80,31 @@ app.post('/parkings/add', (req, res)=> {
 // Delete parking
 app.delete('/parkings/delete/:id', (req, res)=> {
     let id = parseInt(req.params.id)
+    console.log(id);
     deleteParking(id);
     res.send({title: "Response of parkings/delete", status: "Ok", message: "Parking " + id + " has been deleted.", data: [], type: "DELETE"});
 
 })
 // Update parking
 app.put('/parkings/update/:id', (req, res)=> {
-    let id = parseInt(req.params.id)
-    if(id < parkings.length){
-        if (updateParking(id, req.body))
-            res.send({title: "Response of parkings/update", status: "Ok", message: "Parking " + (id + 1) + " has been updated.", data: parkings[id-1], type: "PUT"});
-    }else 
+    let id = parseInt(req.params.id);
+    if (updateParking(parseInt(req.params.id), req.body))
+            res.send({title: "Response of parkings/update", status: "Ok", message: "Parking " + (id + 1) + " has been updated.", data: parkings[id], type: "PUT"});
+    else 
         res.send({title: "Response of parkings/update", status: "Failed", message: "The parking couldn't be updated.", data: [], type: "PUT"})
 })
 // Get a specific parking
 app.get('/parkings/get-one/:id', (req, res)=> {
     let id = parseInt(req.params.id);
-    if(id < parkings.length) 
-        res.send({title: "Response of parkings/byId", status: "Ok", message: "Parking " + id + " has been given.", data: parkings[id], type: "GET"});
+    let parking = getOneParking(id);
+    if(parking != null) 
+        res.send({title: "Response of parkings/byId", status: "Ok", message: "Parking " + id + " has been given.", data: parking, type: "GET"});
     else
         res.send({title: "Response of parkings/byId", status: "Not Working", message: "Parking " + id + " has not been found.", data: [], type: "GET"});
 });
 // Get parking filtered by Min and Max
 app.get('/parkings/filters', (req, res)=> {                     
-    
+    parkings_filtered = parkings;
     // We asing the params
     let min_cost = parseFloat(req.query.min_cost.toString());
     let max_cost = parseFloat(req.query.max_cost.toString());
@@ -124,7 +129,24 @@ app.get('/parkings/filters', (req, res)=> {
 // Fuctions to manage parkings -> array
 // Delete one element
 function deleteParking(id:number) {
-    parkings.splice(id-1, 1);
+    parkings.forEach((parking, i) => {
+        if(parking.id == id) parkings.splice(i, 1);
+    });
+}
+
+function getOneParking(id){
+    let oneParking: Parking;
+    console.log("id en get one "+id);
+    parkings.forEach((parking) => {
+        console.log("id del parking-> " + parking.id);
+        console.log("id a comparar -> " + id);
+        if(parking.id == id) {
+            console.log(parking);
+            oneParking = parking;
+        }
+    });
+
+    return oneParking;
 }
 
 // Ad one element
@@ -151,22 +173,24 @@ function updateParking(id:number, info) {
 }
 // Build a new parking object
 function buildParking(info) {
-    let [address, amenities, score, price, type, images, description] = [info.address, 
-        info.amenities, 
-        info.score,
-        info.price,
-        info.type,
-        info.images,
-        info.description]
+    let [id, address, amenities, score, price, type, images, description] =[info.id,
+                                                                        info.address, 
+                                                                        info.amenities, 
+                                                                        info.score,
+                                                                        info.price,
+                                                                        info.type,
+                                                                        info.images,
+                                                                        info.description]
 
         let new_parking: Parking = {
-        address: address,
-        amenities: amenities,
-        score: score,
-        price: price,
-        type: type,
-        images: images,
-        description: description
+            id: id,
+            address: address,
+            amenities: amenities,
+            score: score,
+            price: price,
+            type: type,
+            images: images,
+            description: description
         } 
     return validateParking(new_parking) ? new_parking : null;
 }

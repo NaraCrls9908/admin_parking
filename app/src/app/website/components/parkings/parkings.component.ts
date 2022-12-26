@@ -38,19 +38,16 @@ export class ParkingsComponent {
     images: [],
     description: ""
   }
-
+  // Form controls for filters
   type = new FormControl();
-
   surv_cam = new FormControl();
   apartment = new FormControl();
   private_parking = new FormControl();
   parking_ceiling = new FormControl();
   ground_floor = new FormControl();
   battery = new FormControl();
-
   min_cost = new FormControl();
   max_cost = new FormControl();
-
   aux_filters: number = 0;
 
   
@@ -77,6 +74,17 @@ export class ParkingsComponent {
     });
   }
 
+  changeRadioButtons(aux:number) {
+    
+    if(aux==0){
+      console.log("cambio de privado a publico");
+      $("input[type=radio][name=type_private]").prop('checked', false)
+    }else if(aux==1){
+      console.log("cambio de publico a privado");
+      $("input[type=radio][name=type_public]").prop('checked', false)
+    }
+  }
+
   getParking(){
     this.aux_filters = 0;
     this.parkingService.getAllParkings().subscribe(response =>{
@@ -87,12 +95,12 @@ export class ParkingsComponent {
     $("input[type=radio][name=type_public]").prop('checked', false);
     $("input[type=radio][name=type_private]").prop('checked', false);
     // Set checked boxes = false
-    $("input[type=radio][name=surv_cam]").prop('checked', false);
-    $("input[type=radio][name=apartment]").prop('checked', false);
-    $("input[type=radio][name=private_parking]").prop('checked', false);
-    $("input[type=radio][name=parking_ceiling]").prop('checked', false);
-    $("input[type=radio][name=ground_floor]").prop('checked', false);
-    $("input[type=radio][name=battery]").prop('checked', false);
+    $("input[type=checkbox][name=surv_cam]").prop('checked', false);
+    $("input[type=checkbox][name=apartment]").prop('checked', false);
+    $("input[type=checkbox][name=private_parking]").prop('checked', false);
+    $("input[type=checkbox][name=parking_ceiling]").prop('checked', false);
+    $("input[type=checkbox][name=ground_floor]").prop('checked', false);
+    $("input[type=checkbox][name=battery]").prop('checked', false);
     
     $("input[type=number][name=min_cost]").prop('value', "");
     $("input[type=number][name=max_cost]").prop('value', "");
@@ -128,6 +136,7 @@ export class ParkingsComponent {
     
     this.parkingService.getParkingsFilters(min_cost, max_cost, type, amenities).subscribe(response =>{
       this.apiResponse = response;
+      console.log("respuesta de los filtros-> " + this.apiResponse.data)
       this.parkings = this.apiResponse.data;
     });
 
@@ -135,10 +144,10 @@ export class ParkingsComponent {
   }
 
   deleteParking(){
-    const id = this.parkingId
-    console.log('Funcion delete - id ' + id)
+    const id = this.parkingId;
+    console.log('Funcion delete - id ' + id);
     this.parkingService.deleteParking(id + 1).subscribe(response =>{
-      console.log(response)
+      console.log(response);
       if(response.status == "Ok" ){
         this.apiResponse = response;
         Swal.fire({
@@ -162,20 +171,17 @@ export class ParkingsComponent {
 
   updateParking(){
     const id = this.parkingId
-    console.log('Funcion update - id ' + id)
+    let idAux = id + 1
     this.parking.address = this.address.value;
     this.parking.amenities = this.amenities.value;
     this.parking.score = this.score.value;
     this.parking.price = this.price.value;
-    this.parking.type = this.type.value;
+    this.parking.type = this.inType.value;
     this.parking.images = this.images.value;
     this.parking.description = this.description.value;
     
-    let idAux = id + 1
-    this.parkingService.updateParking(id, this.parking).subscribe(response =>{
-      console.log(response)
-      
-
+    
+    this.parkingService.updateParking(idAux, this.parking).subscribe(response =>{
       if(response.status == "Ok" ){
         this.apiResponse = response;
         Swal.fire({
