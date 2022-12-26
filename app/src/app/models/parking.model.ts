@@ -1,6 +1,6 @@
 export interface Parking{
     address: String,
-    ammenities: String[],
+    amenities: String[],
     score: Number,
     price: Number,
     type: String,

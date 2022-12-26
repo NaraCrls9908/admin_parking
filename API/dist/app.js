@@ -19,7 +19,7 @@ let parkings = [
     },
     {
         address: 'Street B #27, California, CA',
-        amenities: ['Surveillance Cam', 'Apartment', 'Ground Floor', 'Parking with ceiling'],
+        amenities: ['Surveillance Cam', 'Apartment', 'Parking with ceiling'],
         score: 4.2,
         price: 175,
         type: 'Public',
