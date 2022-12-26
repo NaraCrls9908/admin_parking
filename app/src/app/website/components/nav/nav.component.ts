@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
 })
 export class NavComponent {
 
-  apiResponse: ApiResponse | null = {
+  apiResponse: ApiResponse = {
     title: '',
     status: '', 
     message: '',
@@ -22,7 +22,7 @@ export class NavComponent {
 
   parking: Parking = {
     address: "",
-    ammenities: [],
+    amenities: [],
     score: 0,
     price: 0,
     type: "",
@@ -30,7 +30,7 @@ export class NavComponent {
     description: ""
   };
   address = new FormControl();
-  ammenities = new FormControl();
+  amenities = new FormControl();
   score = new FormControl();
   price = new FormControl();
   type = new FormControl();
@@ -41,33 +41,38 @@ export class NavComponent {
 
   saveParking(){
     this.parking.address = this.address.value;
-    this.parking.ammenities = this.ammenities.value;
+    this.parking.amenities = this.amenities.value;
     this.parking.score = this.score.value;
     this.parking.price = this.price.value;
     this.parking.type = this.type.value;
     this.parking.images = this.images.value;
     this.parking.description = this.description.value;
 
-    this.parkingService.addParking(this.parking).subscribe(data =>{
-      if(data.status = "Ok" ){
-        this.apiResponse = data;
-        Swal.fire(
-          'Parking has created!',
-          this.apiResponse.message,
-          'success'
-        )
+    this.parkingService.addParking(this.parking).subscribe(response =>{
+
+
+      if(response.status == "Ok" ){
+        this.apiResponse = response;
+        Swal.fire({
+          icon: 'success' ,
+          title: 'Parking has created!',
+          text: this.apiResponse.message,
+        })
         window.setInterval(() =>{
           location.reload();
         }, 1000);
       }
 
-      if(data.status = "Failed"){
+      if(response.status == "Failed"){
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
-          text: 'Please check your info!',
+          text: this.apiResponse.message,
         })
       }
+
+      console.log(this.apiResponse);
+
     })
 
   }

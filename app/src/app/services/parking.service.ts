@@ -24,10 +24,10 @@ export class ParkingService {
   }
 
   deleteParking(id: number){
-    return this.httpClient.delete(`${this.apiUrl}/delete/${id}`);
+    return this.httpClient.delete<ApiResponse>(`${this.apiUrl}/delete/${id}`);
   }
 
   updateParking(id:number, data: Parking){
-    return this.httpClient.put(`${this.apiUrl}/update/${id}`, data);
+    return this.httpClient.put<ApiResponse>(`${this.apiUrl}/update/${id}`, data);
   }
 }

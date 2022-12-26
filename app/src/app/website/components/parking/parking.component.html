@@ -18,9 +18,58 @@
     <div class="row">
       <div class="offset-9 col-3">
         <button class="btn btn-danger m-2" (click)="deleteParking(id)" >Delete</button>
-        <button class="btn btn-secondary m-2" (click)="updateParking()" >Update</button>
-        <button class="btn btn-primary m-2" (click)="seeAllInfo()" > See more info</button>
+        <button class="btn btn-secondary m-2"  data-bs-toggle="modal" data-bs-target="#updateModal" >Update</button>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+      <div class="modal-header">
+          <h1 class="modal-title fs-5" id="updateModalLabel">Update new parking</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <h1> {{ id }} </h1>
+      </div>
+      <div class="modal-body">
+          <div>
+              <label for="">Address: </label>
+              <input type="text" name="address" [formControl]="address" id="address">
+          </div>
+          <div>
+              <label for="">Ammenities: </label>
+              <input type="text" name="amenities" [formControl]="amenities" id="amenities">
+          </div>
+          <div>
+              <label for="">Score: </label>
+              <input type="number" name="score" [formControl]="score" id="score">
+          </div>
+          <div>
+              <label for="">Price: </label>
+              <input type="number" name="price" [formControl]="price" id="price">
+          </div>
+          <div>
+              <label for="">Type: </label>
+              <select name="type" id="type" [formControl]="type">
+                  <option value="public">Public</option>
+                  <option value="private">Private</option>
+              </select>
+          </div>
+          <div>
+              <label for="">Images: </label>
+              <input type="text" name="images" [formControl]="images" id="images">
+          </div>
+          <div>
+              <label for="">Description: </label>
+              <input type="text" name="description" [formControl]="description" id="description">
+          </div>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" (click)="updateParking(id)">Save changes</button>
+      </div>
+      </div>
   </div>
 </div>
