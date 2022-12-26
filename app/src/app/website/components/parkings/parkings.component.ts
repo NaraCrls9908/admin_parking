@@ -23,6 +23,8 @@ export class ParkingsComponent {
 
   min_cost = new FormControl();
   max_cost = new FormControl();
+
+  aux_filters: number = 0;
   
 
   constructor(private parkingService: ParkingService){}
@@ -38,13 +40,32 @@ export class ParkingsComponent {
   }
 
   getParking(){
+    this.aux_filters = 0;
     this.parkingService.getAllParkings().subscribe(response =>{
       this.apiResponse = response
       this.parkings = this.apiResponse.data;
-    })
+    });
+    // Set radio buttons = false
+    $("input[type=radio][name=type_public]").prop('checked', false);
+    $("input[type=radio][name=type_private]").prop('checked', false);
+    // Set checked boxes = false
+    $("input[type=radio][name=surv_cam]").prop('checked', false);
+    $("input[type=radio][name=apartment]").prop('checked', false);
+    $("input[type=radio][name=private_parking]").prop('checked', false);
+    $("input[type=radio][name=parking_ceiling]").prop('checked', false);
+    $("input[type=radio][name=ground_floor]").prop('checked', false);
+    $("input[type=radio][name=battery]").prop('checked', false);
+    
+    $("input[type=number][name=min_cost]").prop('value', "");
+    $("input[type=number][name=max_cost]").prop('value', "");
+    
+
+
+
   }
 
-  updateParking(){
+  fileteredParkings(){
+    this.aux_filters = 1;
     let type = this.type.value;
     let min_cost = this.min_cost.value;
     let max_cost = this.max_cost.value;
@@ -68,10 +89,8 @@ export class ParkingsComponent {
 
     
     this.parkingService.getParkingsFilters(min_cost, max_cost, type, amenities).subscribe(response =>{
-      this.apiResponse = response
-      console.log(this.apiResponse.data);
+      this.apiResponse = response;
+      this.parkings = this.apiResponse.data;
     })
-
-
   }
 }

@@ -68,7 +68,6 @@ app.get('/parkings', (req, res)=> {
 })
 // Create parking
 app.post('/parkings/add', (req, res)=> {
-    console.log("body de la req: ", req.body);
     if (addParking(req.body))  
         res.send({title: "Response of parkings/add", status: "Ok", message: "A new parking has been created.", data: parkings[parkings.length-1], type: "POST"});
     else 
@@ -199,7 +198,6 @@ function filterByMinMaxCost(min_cost:number, max_cost:number) {
 }
 
 function filterByType(type:string) {
-    console.log(type);
     if(type)
         parkings_filtered = parkings_filtered.filter(parking => parking.type == type);
 }
@@ -210,8 +208,6 @@ function filterByAmenities(amenitiesArg:string) {
         let amenities = amenitiesArg.split(",");
         parkings_filtered.forEach(parking => {
             amenities.forEach(amenitie => {
-                console.log("filtradas-> " + parking.amenities);
-                console.log("amenitie a comparar -> " + amenitie.trim());
                 if(parking.amenities.includes(amenitie.trim())) parkings_aux.push(parking);
             })
         })

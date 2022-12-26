@@ -16,11 +16,11 @@
                 <div class="type">
                     <h5>Type</h5>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" [formControl]="type" value="Public" id="type_public">
+                    <input class="form-check-input" type="radio" [formControl]="type" value="Public" name="type_public" id="type_public">
                     <label class="form-check-label" for="type_public" >Public</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" [formControl]="type" value="Private" id="type_private">
+                    <input class="form-check-input" type="radio" [formControl]="type" value="Private" name="type_private" id="type_private">
                     <label class="form-check-label" for="type_private">Private</label>
                 </div>
                 </div>
@@ -30,27 +30,27 @@
                     <h5>Amenities</h5>
                     <div class="custom-control custom-checkbox">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox"  [formControl]="surv_cam" value="Surveillance Camera" id="surv_cam">
+                                <input class="form-check-input" type="checkbox"  [formControl]="surv_cam" value="Surveillance Camera" name="surv_cam" id="surv_cam">
                                 <label class="form-check-label" for="surv_cam"> Surveillance Camera </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" [formControl]="apartment" value="Apartment" id="apartment">
+                                <input class="form-check-input" type="checkbox" [formControl]="apartment" value="Apartment" name="apartment" id="apartment">
                                 <label class="form-check-label" for="apartment"> Apartment </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" [formControl]="private_parking" value="Private Parking Lot" id="private_parking">
+                                <input class="form-check-input" type="checkbox" [formControl]="private_parking" value="Private Parking Lot" name="private_parking" id="private_parking">
                                 <label class="form-check-label" for="private_parking"> Private Parking Lot </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" [formControl]="parking_ceiling" value="Parking With Ceiling" id="parking_ceiling">
+                                <input class="form-check-input" type="checkbox" [formControl]="parking_ceiling" value="Parking With Ceiling" name="parking_ceiling" id="parking_ceiling">
                                 <label class="form-check-label" for="parking_ceiling"> Parking With Ceiling </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" [formControl]="ground_floor" value="Ground Floor" id="ground_floor">
+                                <input class="form-check-input" type="checkbox" [formControl]="ground_floor" value="Ground Floor" name="ground_floor" id="ground_floor">
                                 <label class="form-check-label" for="ground floor"> Ground Floor </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" [formControl]="battery" value="Battery-shaped places" id="battery">
+                                <input class="form-check-input" type="checkbox" [formControl]="battery" value="Battery-shaped places" name="battery" id="battery">
                                 <label class="form-check-label" for="battery"> Battery-shaped places </label>
                             </div>
                     </div>
@@ -62,28 +62,45 @@
                     <div class="row">
                         <div class="col-5">
                             <div class="input-group input-group-sm ">
-                                <input type="number" id="min_cost" value="" class="form-control" [formControl]="min_cost" placeholder="Min $" aria-label="Min $" aria-describedby="basic-addon1" min="0">
+                                <input type="number" id="min_cost" name="min_cost" value="" class="form-control" [formControl]="min_cost" placeholder="Min $" aria-label="Min $" aria-describedby="basic-addon1" min="0">
                             </div>
                         </div>
                         <div class="col-1"> - </div>
                         <div class="col-5">
                             <div class="input-group input-group-sm ">
-                                <input type="number" id="max_cost" value="" class="form-control"  [formControl]="max_cost"placeholder="Max $" aria-label="Max $" aria-describedby="basic-addon1" min="0">
+                                <input type="number" id="max_cost" name="max_cost" value="" class="form-control"  [formControl]="max_cost"placeholder="Max $" aria-label="Max $" aria-describedby="basic-addon1" min="0">
                             </div>
                         </div>
                     </div>
                 </div>
             </li>
             <hr>
-            <li class="active">
-                <div class="type">
-                    <div class="row">
-                        <div class="col-12">
-                            <button class="btn btn-primary w-75" (click)="updateParking()">Apply filters</button>
+            <div *ngIf="aux_filters == 0; then thenBlock else elseBlock"></div>
+            <ng-template #thenBlock>
+                <li class="active" >
+                    <div class="type">
+                        <div class="row">
+                            <div class="col-12">
+                                <button class="btn btn-primary w-75" (click)="fileteredParkings()">Apply filters</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </li>
+                </li>
+            </ng-template>
+            <ng-template #elseBlock>
+                <li class="active">
+                    <div class="type">
+                        <div class="row">
+                            <div class="col-6">
+                                <button class="btn btn-primary w-75 btn-sm" (click)="fileteredParkings()">Apply filters</button>
+                            </div>
+                            <div class="col-6">
+                                <button class="btn btn-danger w-75 btn-sm" (click)="getParking()">Delete filters</button>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ng-template>            
         </ul>
     </nav>
 

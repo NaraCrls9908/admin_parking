@@ -48,7 +48,6 @@ app.get('/parkings', (req, res) => {
 });
 // Create parking
 app.post('/parkings/add', (req, res) => {
-    console.log("body de la req: ", req.body);
     if (addParking(req.body))
         res.send({ title: "Response of parkings/add", status: "Ok", message: "A new parking has been created.", data: parkings[parkings.length - 1], type: "POST" });
     else
@@ -158,7 +157,6 @@ function validateParking(parking) {
     return false;
 }
 function filterByMinMaxCost(min_cost, max_cost) {
-    console.log(min_cost + "   -    " + max_cost);
     if (min_cost != null && max_cost != null)
         parkings_filtered = parkings.filter(parking => parking.price >= min_cost && parking.price <= max_cost);
     else if (min_cost != null)
@@ -167,24 +165,17 @@ function filterByMinMaxCost(min_cost, max_cost) {
         parkings_filtered = parkings.filter(parking => parking.price <= max_cost);
     else // Here we have no filters
         parkings_filtered = parkings;
-    console.log(parkings_filtered);
 }
 function filterByType(type) {
-    console.log(type);
     if (type)
         parkings_filtered = parkings_filtered.filter(parking => parking.type == type);
-    console.log(parkings_filtered);
 }
 function filterByAmenities(amenitiesArg) {
     let parkings_aux = [];
     if (amenitiesArg) {
         let amenities = amenitiesArg.split(",");
-        console.log("mis amenities aqui ->" + amenities);
-        console.log("entramos en la condicion");
         parkings_filtered.forEach(parking => {
             amenities.forEach(amenitie => {
-                console.log("filtradas-> " + parking.amenities);
-                console.log("amenitie a comparar -> " + amenitie.trim());
                 if (parking.amenities.includes(amenitie.trim()))
                     parkings_aux.push(parking);
             });
@@ -196,8 +187,6 @@ function filterByAmenities(amenitiesArg) {
     else {
         parkings_filtered = parkings_filtered;
     }
-    console.log("este es el aux " + parkings_aux);
-    console.log("este es el bueno -> " + parkings_filtered);
 }
 // Run
 app.listen(port, () => {
