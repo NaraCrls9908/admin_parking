@@ -17,59 +17,57 @@
   <div class="card-footer align-content-end">
     <div class="row">
       <div class="offset-9 col-3">
-        <button class="btn btn-danger m-2" (click)="deleteParking(id)" >Delete</button>
-        <button class="btn btn-secondary m-2"  data-bs-toggle="modal" data-bs-target="#updateModal" >Update</button>
+        <button class="btn btn-secondary m-2"  (click)="toggleParkingDetail()">Edit or Delete</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-      <div class="modal-content">
-      <div class="modal-header">
-          <h1 class="modal-title fs-5" id="updateModalLabel">Update new parking</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          <h1> {{ id }} </h1>
-      </div>
+<div class="parking-detail" [class.active]="showParkingDetail">
+  <div *ngIf="showParkingDetail"> 
+      <button (click)="toggleParkingDetail()">Close</button>
+      <h1>Parking {{id + 1}} </h1>
       <div class="modal-body">
-          <div>
-              <label for="">Address: </label>
-              <input type="text" name="address" [formControl]="address" id="address">
-          </div>
-          <div>
-              <label for="">Ammenities: </label>
-              <input type="text" name="amenities" [formControl]="amenities" id="amenities">
-          </div>
-          <div>
-              <label for="">Score: </label>
-              <input type="number" name="score" [formControl]="score" id="score">
-          </div>
-          <div>
-              <label for="">Price: </label>
-              <input type="number" name="price" [formControl]="price" id="price">
-          </div>
-          <div>
-              <label for="">Type: </label>
-              <select name="type" id="type" [formControl]="type">
-                  <option value="public">Public</option>
-                  <option value="private">Private</option>
-              </select>
-          </div>
-          <div>
-              <label for="">Images: </label>
-              <input type="text" name="images" [formControl]="images" id="images">
-          </div>
-          <div>
-              <label for="">Description: </label>
-              <input type="text" name="description" [formControl]="description" id="description">
-          </div>
-      </div>
-      <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" (click)="updateParking(id)">Save changes</button>
-      </div>
-      </div>
+        <div>
+            <label for="">Address: </label>
+            <input type="text" name="address" [formControl]="address" id="address">
+        </div>
+        <div>
+            <label for="">Ammenities: </label>
+            <select name="amenities" multiple id="amenities" [formControl]="amenities">
+              <option value="Surveillance Cam">Surveillance Cam</option>
+              <option value="Apartment">Apartment</option>
+              <option value="Private Parking Lot">Private Parking Lot</option>
+              <option value="Parking With Ceiling">Parking With Ceiling</option>
+              <option value="Ground Floor">Ground Floor</option>
+              <option value="Battery-shaped places">Battery-shaped places</option>
+          </select>
+        </div>
+        <div>
+            <label for="">Score: </label>
+            <input type="number" name="score" [formControl]="score" id="score">
+        </div>
+        <div>
+            <label for="">Price: </label>
+            <input type="number" name="price" [formControl]="price" id="price">
+        </div>
+        <div>
+            <label for="">Type: </label>
+            <select name="type" id="type" [formControl]="type">
+                <option value="Public">Public</option>
+                <option value="Private">Private</option>
+            </select>
+        </div>
+        <div>
+            <label for="">Images: </label>
+            <input type="text" name="images" [formControl]="images" id="images">
+        </div>
+        <div>
+            <label for="">Description: </label>
+            <input type="text" name="description" [formControl]="description" id="description">
+        </div>
+    </div>
+      <button class="btn btn-danger m-2" (click)="deleteParking(id)" >Delete</button>
+      <button class="btn btn-secondary m-2"  (click)="updateParking(id)" >Update</button>
   </div>
 </div>

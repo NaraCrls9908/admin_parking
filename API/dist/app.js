@@ -10,7 +10,7 @@ app.use(cors());
 let parkings = [
     {
         address: 'Street A #35, California, CA,',
-        amenities: ['Surveillance Cam', 'Apartment', 'Ground Floor', 'Battery-shaped places'],
+        amenities: ['Surveillance Cam', 'Apartment', 'Ground Floor', 'Battery-Shaped Places'],
         score: 3.8,
         price: 100,
         type: 'Public',
@@ -19,7 +19,7 @@ let parkings = [
     },
     {
         address: 'Street B #27, California, CA',
-        amenities: ['Surveillance Cam', 'Apartment', 'Parking with ceiling'],
+        amenities: ['Surveillance Cam', 'Apartment', 'Parking With Ceiling'],
         score: 4.2,
         price: 175,
         type: 'Public',
@@ -28,7 +28,7 @@ let parkings = [
     },
     {
         address: 'Street C #7, California, CA',
-        amenities: ['Surveillance Cam', 'Apartment', 'Ground Floor', 'Parking with ceiling', 'Private Parking Lot'],
+        amenities: ['Surveillance Cam', 'Apartment', 'Ground Floor', 'Parking With Ceiling', 'Private Parking Lot'],
         score: 4.8,
         price: 200,
         type: 'Private',
@@ -65,7 +65,7 @@ app.put('/parkings/update/:id', (req, res) => {
     let id = parseInt(req.params.id);
     if (id < parkings.length) {
         if (updateParking(id, req.body))
-            res.send({ title: "Response of parkings/update", status: "Ok", message: "Parking " + id + " has been updated.", data: parkings[id - 1], type: "PUT" });
+            res.send({ title: "Response of parkings/update", status: "Ok", message: "Parking " + (id + 1) + " has been updated.", data: parkings[id - 1], type: "PUT" });
     }
     else
         res.send({ title: "Response of parkings/update", status: "Failed", message: "The parking couldn't be updated.", data: [], type: "PUT" });
@@ -120,7 +120,7 @@ function updateParking(id, info) {
     deleteParking(id);
     let updatedParking = buildParking(info);
     if (updatedParking) {
-        parkings.splice(id - 1, 0, updatedParking); // We add the updated parking in the same position
+        parkings.splice(id, 0, updatedParking); // We add the updated parking in the same position
         return true;
     }
     return false;

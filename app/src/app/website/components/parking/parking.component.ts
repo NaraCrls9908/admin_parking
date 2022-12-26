@@ -29,6 +29,7 @@ export class ParkingComponent {
     data: []
   };
 
+  showParkingDetail = false;
   address = new FormControl();
   amenities = new FormControl();
   score = new FormControl();
@@ -49,6 +50,7 @@ export class ParkingComponent {
     this.description.setValue(this.parking.description);
 
   }
+
   deleteParking(id: number){
     // console.log(this.parkingId)
     this.parkingService.deleteParking(id + 1).subscribe(response =>{
@@ -83,36 +85,36 @@ export class ParkingComponent {
     this.parking.images = this.images.value;
     this.parking.description = this.description.value;
 
-    
-    
-    console.log(id + 1 )
-    console.log(this.parking)
-    // this.parkingService.updateParking(id, this.parking).subscribe(response =>{
+    console.log(id)
+    let idAux = id + 1
+    this.parkingService.updateParking(id, this.parking).subscribe(response =>{
 
 
-    //   if(response.status == "Ok" ){
-    //     this.apiResponse = response;
-    //     Swal.fire({
-    //       icon: 'success' ,
-    //       title: 'Parking has created!',
-    //       text: this.apiResponse.message,
-    //     })
-    //     window.setInterval(() =>{
-    //       // location.reload();
-    //     }, 1000);
-    //   }
+      if(response.status == "Ok" ){
+        this.apiResponse = response;
+        Swal.fire({
+          icon: 'success' ,
+          title: 'Parking has created!',
+          text: this.apiResponse.message,
+        })
+        window.setInterval(() =>{
+          location.reload();
+        }, 1000);
+      }
 
-    //   if(response.status == "Failed"){
-    //     Swal.fire({
-    //       icon: 'error',
-    //       title: 'Oops...',
-    //       text: this.apiResponse.message,
-    //     })
-    //   }
+      if(response.status == "Failed"){
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: this.apiResponse.message,
+        })
+      }
 
-    //   console.log(this.apiResponse);
+    })
 
-    // })
+  }
 
+  toggleParkingDetail(){
+    this.showParkingDetail = !this.showParkingDetail;
   }
 }

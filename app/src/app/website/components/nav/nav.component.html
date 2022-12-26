@@ -29,7 +29,14 @@
             </div>
             <div>
                 <label for="">Ammenities: </label>
-                <input type="text" name="amenities" [formControl]="amenities" id="amenities">
+                <select name="amenities" multiple id="amenities" [formControl]="amenities">
+                    <option value="Surveillance Cam">Surveillance Cam</option>
+                    <option value="Apartment">Apartment</option>
+                    <option value="Private Parking Lot">Private Parking Lot</option>
+                    <option value="Parking With Ceiling">Parking With Ceiling</option>
+                    <option value="Ground Floor">Ground Floor</option>
+                    <option value="Battery-shaped places">Battery-shaped places</option>
+                </select>
             </div>
             <div>
                 <label for="">Score: </label>
@@ -42,8 +49,8 @@
             <div>
                 <label for="">Type: </label>
                 <select name="type" id="type" [formControl]="type">
-                    <option value="public">Public</option>
-                    <option value="private">Private</option>
+                    <option value="Public">Public</option>
+                    <option value="Private">Private</option>
                 </select>
             </div>
             <div>
