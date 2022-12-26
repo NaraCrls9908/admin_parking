@@ -16,7 +16,7 @@ export class ParkingService {
   }
 
   getParkingById(id: number){
-    return this.httpClient.get<ApiResponse>(`${this.apiUrl}/${id}`);
+    return this.httpClient.get<ApiResponse>(`${this.apiUrl}/get-one/${id}`);
   }
 
   addParking(data: Parking){
@@ -30,4 +30,6 @@ export class ParkingService {
   updateParking(id:number, data: Parking){
     return this.httpClient.put<ApiResponse>(`${this.apiUrl}/update/${id}`, data);
   }
+
+  
 }
