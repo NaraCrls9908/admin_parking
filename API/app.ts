@@ -5,8 +5,11 @@ import { privateDecrypt } from "crypto";
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import multer from 'multer';
+import fs from 'fs';
 import { clearScreenDown } from "readline";
 import { rmSync } from "fs";
+
 
 dotenv.config();
 const port = 8080
@@ -61,6 +64,7 @@ app.get('/', (req, res)=> {
     res.send("Hi! I'm your API and I'm working");
 });
 
+
 // Routes for parkings
 // Get all parkings
 app.get('/parkings', (req, res)=> {
@@ -101,28 +105,17 @@ app.get('/parkings/get-one/:id', (req, res)=> {
 // Get parking filtered by Min and Max
 app.get('/parkings/filters', (req, res)=> {
     parkings_filtered = parkings;
-
-
+    // We asing the params
     let min_cost = parseFloat(req.query.min_cost.toString());
     let max_cost = parseFloat(req.query.max_cost.toString());
     let type = req.query.type.toString();
     let amenities = req.query.amenities.toString();
-
     // NaN to null in MIN and MAX cost
     if(isNaN(min_cost)) min_cost = null;
     if(isNaN(max_cost)) max_cost = null;
-
-
-
-    console.log("min cost: " + min_cost);
-    console.log("max cost: " + max_cost);
-    console.log("type: " + type);
-    console.log("amenities: " + amenities);
-    //if(min_cost || max_cost) 
+    // We work the parkings_filtered to be filter
     filterByMinMaxCost(min_cost, max_cost);
-    //if(type) 
     filterByType(type);
-    //if(amenities) 
     filterByAmenities(amenities);
     
     if(parkings_filtered.length <= 0)

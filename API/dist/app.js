@@ -2,11 +2,21 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import multer from 'multer';
 dotenv.config();
 const port = 8080;
 const app = express();
 app.use(express.json());
 app.use(cors());
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './uploads/imgs/' + 1);
+    },
+    fleName: function (req, file, cb) {
+        cb(null, 'img_1');
+    }
+});
+const upload = multer({ storage });
 let parkings = [
     {
         address: 'Street A #35, California, CA,',
@@ -19,7 +29,7 @@ let parkings = [
     },
     {
         address: 'Street B #27, California, CA',
-        amenities: ['Surveillance Cam', 'Apartment', 'Ground Floor', 'Parking with ceiling'],
+        amenities: ['Surveillance Cam', 'Apartment', 'Parking with ceiling'],
         score: 4.2,
         price: 175,
         type: 'Public',
@@ -40,6 +50,9 @@ let parkings_filtered;
 // Is my API working?
 app.get('/', (req, res) => {
     res.send("Hi! I'm your API and I'm working");
+});
+app.post('/parkings/uploads', upload.single('img'), (req, res) => {
+    res.send('imgs guardada');
 });
 // Routes for parkings
 // Get all parkings
@@ -81,6 +94,7 @@ app.get('/parkings/get-one/:id', (req, res) => {
 // Get parking filtered by Min and Max
 app.get('/parkings/filters', (req, res) => {
     parkings_filtered = parkings;
+    // We asing the params
     let min_cost = parseFloat(req.query.min_cost.toString());
     let max_cost = parseFloat(req.query.max_cost.toString());
     let type = req.query.type.toString();
@@ -90,15 +104,9 @@ app.get('/parkings/filters', (req, res) => {
         min_cost = null;
     if (isNaN(max_cost))
         max_cost = null;
-    console.log("min cost: " + min_cost);
-    console.log("max cost: " + max_cost);
-    console.log("type: " + type);
-    console.log("amenities: " + amenities);
-    //if(min_cost || max_cost) 
+    // We work the parkings_filtered to be filter
     filterByMinMaxCost(min_cost, max_cost);
-    //if(type) 
     filterByType(type);
-    //if(amenities) 
     filterByAmenities(amenities);
     if (parkings_filtered.length <= 0)
         res.send({ title: "Response of parkings/filtered", status: "Failed", message: "Data not found", data: parkings_filtered, type: "GET" });
