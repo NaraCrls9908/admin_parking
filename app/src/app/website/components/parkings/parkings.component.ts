@@ -91,6 +91,8 @@ export class ParkingsComponent {
     this.parkingService.getParkingsFilters(min_cost, max_cost, type, amenities).subscribe(response =>{
       this.apiResponse = response;
       this.parkings = this.apiResponse.data;
-    })
+    });
+
+    if(this.parkings.length == 0) this.aux_filters = 2;
   }
 }

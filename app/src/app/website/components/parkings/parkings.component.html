@@ -110,6 +110,9 @@
         <div class="parkingsGrid">
             <app-parking *ngFor="let parking of parkings; let i = index" [parking]="parking" [id]="i" ></app-parking>
         </div>
+        <div class="parkingsGrid" *ngIf="aux_filters == 2">
+            <h5>Data not found</h5>
+        </div>
 </div>
 
 
