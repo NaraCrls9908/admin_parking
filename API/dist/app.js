@@ -2,21 +2,11 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import multer from 'multer';
 dotenv.config();
 const port = 8080;
 const app = express();
 app.use(express.json());
 app.use(cors());
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './uploads/imgs/' + 1);
-    },
-    fleName: function (req, file, cb) {
-        cb(null, 'img_1');
-    }
-});
-const upload = multer({ storage });
 let parkings = [
     {
         address: 'Street A #35, California, CA,',
@@ -51,14 +41,11 @@ let parkings_filtered;
 app.get('/', (req, res) => {
     res.send("Hi! I'm your API and I'm working");
 });
-app.post('/parkings/uploads', upload.single('img'), (req, res) => {
-    res.send('imgs guardada');
-});
 // Routes for parkings
 // Get all parkings
-app.get('/parkings', (req, res) => {
-    res.send({ title: "Response of parkings/", status: "Ok", message: "Data of parkings has been given.", data: parkings, type: "GET" });
-});
+/* app.get('/parkings', (req, res)=> {
+    res.send({title: "Response of parkings/", status: "Ok", message: "Data of parkings has been given.", data: parkings, type: "GET"});
+}) */
 // Create parking
 app.post('/parkings/add', (req, res) => {
     console.log("body de la req: ", req.body);
@@ -92,26 +79,28 @@ app.get('/parkings/get-one/:id', (req, res) => {
         res.send({ title: "Response of parkings/byId", status: "Not Working", message: "Parking " + id + " has not been found.", data: [], type: "GET" });
 });
 // Get parking filtered by Min and Max
-app.get('/parkings/filters', (req, res) => {
+app.get('/parkings/', (req, res) => {
     parkings_filtered = parkings;
     // We asing the params
-    let min_cost = parseFloat(req.query.min_cost.toString());
-    let max_cost = parseFloat(req.query.max_cost.toString());
-    let type = req.query.type.toString();
-    let amenities = req.query.amenities.toString();
-    // NaN to null in MIN and MAX cost
-    if (isNaN(min_cost))
-        min_cost = null;
-    if (isNaN(max_cost))
-        max_cost = null;
-    // We work the parkings_filtered to be filter
-    filterByMinMaxCost(min_cost, max_cost);
-    filterByType(type);
-    filterByAmenities(amenities);
+    if (req.query) {
+        let min_cost = parseFloat(req.query.min_cost.toString());
+        let max_cost = parseFloat(req.query.max_cost.toString());
+        let type = req.query.type.toString();
+        let amenities = req.query.amenities.toString();
+        // NaN to null in MIN and MAX cost
+        if (isNaN(min_cost))
+            min_cost = null;
+        if (isNaN(max_cost))
+            max_cost = null;
+        // We work the parkings_filtered to be filter
+        filterByMinMaxCost(min_cost, max_cost);
+        filterByType(type);
+        filterByAmenities(amenities);
+    }
     if (parkings_filtered.length <= 0)
         res.send({ title: "Response of parkings/filtered", status: "Failed", message: "Data not found", data: parkings_filtered, type: "GET" });
     else
-        res.send({ title: "Response of parkings/filtered", status: "Ok", message: "Data of parkings with filters has been given.", data: parkings_filtered, type: "GET" });
+        res.send({ title: "Response of parkings/filtered", status: "Ok", message: "Data of parkings with filters has been given.", data: parkings, type: "GET" });
 });
 // Fuctions to manage parkings -> array
 // Delete one element

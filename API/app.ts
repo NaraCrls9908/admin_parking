@@ -101,7 +101,7 @@ app.get('/parkings/get-one/:id', (req, res)=> {
         res.send({title: "Response of parkings/byId", status: "Ok", message: "Parking " + id + " has been given.", data: parkings[id-1], type: "GET"});
     else
         res.send({title: "Response of parkings/byId", status: "Not Working", message: "Parking " + id + " has not been found.", data: [], type: "GET"});
-})
+});
 // Get parking filtered by Min and Max
 app.get('/parkings/filters', (req, res)=> {
     parkings_filtered = parkings;
@@ -121,7 +121,7 @@ app.get('/parkings/filters', (req, res)=> {
     if(parkings_filtered.length <= 0)
         res.send({title: "Response of parkings/filtered", status: "Failed", message: "Data not found", data: parkings_filtered, type: "GET"})
     else
-        res.send({title: "Response of parkings/filtered", status: "Ok", message: "Data of parkings with filters has been given.", data: parkings_filtered, type: "GET"});
+        res.send({title: "Response of parkings/filtered", status: "Ok", message: "Data of parkings with filters has been given.", data: parkings, type: "GET"});
 
 })
 
