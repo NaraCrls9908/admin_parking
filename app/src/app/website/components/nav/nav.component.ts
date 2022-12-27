@@ -21,6 +21,7 @@ export class NavComponent {
   };
 
   parking: Parking = {
+    id: 0,
     address: "",
     amenities: [],
     score: 0,
@@ -36,6 +37,11 @@ export class NavComponent {
   type = new FormControl();
   images = new FormControl();
   description = new FormControl();
+
+  entry = new FormControl();
+  exit = new FormControl();
+
+  difference: number = 0;
 
   constructor(private parkingService: ParkingService){}
 
@@ -74,6 +80,40 @@ export class NavComponent {
       console.log(this.apiResponse);
 
     })
+
+  }
+
+  quote(){
+    
+    if( (this.entry.value != null) && (this.exit.value != null)){
+      
+      let [yearDateEntry, monthDateEntry, dayDateEntry] = this.entry.value.toString().split("-");
+      let [yearDateExit, monthDateExit, dayDateExit] = this.exit.value.toString().split("-");
+      let date1 = new Date(this.entry.value);
+      let date2 = new Date(this.exit.value);
+      if (date1 > date2) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'The first date must be less than the second.',
+        })
+      }else{
+        let differenceMoth = (yearDateExit - yearDateEntry) * 12; 
+        differenceMoth += monthDateExit - monthDateEntry;
+        this.difference = differenceMoth  
+        if(differenceMoth == 0){
+          differenceMoth = 1;
+        }
+        
+      }
+  
+    }else{
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'You must select both dates.',
+      })
+    }
 
   }
 

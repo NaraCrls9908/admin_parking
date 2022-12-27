@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ApiResponse, Parking } from 'src/app/models/parking.model';
 import { ParkingService } from 'src/app/services/parking.service';
 import { FormControl } from '@angular/forms';
-import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-parking',
   templateUrl: './parking.component.html',
@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 })
 export class ParkingComponent {
   @Input() parking: Parking = {
+      id: 0,
       address: "",
       amenities: [],
       score: 0,
@@ -18,8 +19,6 @@ export class ParkingComponent {
       images: [],
       description: ""
   }
-
-  @Input() id: number = 0;
 
   apiResponse: ApiResponse = {
     title: '',
@@ -45,6 +44,6 @@ export class ParkingComponent {
   }
 
   onShowDetail(){
-    this.parkingId.emit(this.id);
+    this.parkingId.emit(this.parking.id);
   }
 }

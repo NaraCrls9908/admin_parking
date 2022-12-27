@@ -1,4 +1,5 @@
 export interface Parking{
+    id: number,
     address: String,
     amenities: String[],
     score: Number,

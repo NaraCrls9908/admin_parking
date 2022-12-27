@@ -19,6 +19,7 @@ export class ParkingsComponent {
     message: '',
     type: '',
     data: {
+      id: 0,
       address: "",
       amenities: [],
       score: 0,
@@ -30,6 +31,7 @@ export class ParkingsComponent {
   };
 
   parking: Parking = {
+    id: 0,
     address: "",
     amenities: [],
     score: 0,
@@ -146,7 +148,7 @@ export class ParkingsComponent {
   deleteParking(){
     const id = this.parkingId;
     console.log('Funcion delete - id ' + id);
-    this.parkingService.deleteParking(id + 1).subscribe(response =>{
+    this.parkingService.deleteParking(id).subscribe(response =>{
       console.log(response);
       if(response.status == "Ok" ){
         this.apiResponse = response;
@@ -171,7 +173,6 @@ export class ParkingsComponent {
 
   updateParking(){
     const id = this.parkingId
-    let idAux = id + 1
     this.parking.address = this.address.value;
     this.parking.amenities = this.amenities.value;
     this.parking.score = this.score.value;
@@ -181,7 +182,7 @@ export class ParkingsComponent {
     this.parking.description = this.description.value;
     
     
-    this.parkingService.updateParking(idAux, this.parking).subscribe(response =>{
+    this.parkingService.updateParking(id, this.parking).subscribe(response =>{
       if(response.status == "Ok" ){
         this.apiResponse = response;
         Swal.fire({
@@ -225,4 +226,5 @@ export class ParkingsComponent {
   toggleParkingDetail(){
     this.showParkingDetail = !this.showParkingDetail;
   }
+  
 }

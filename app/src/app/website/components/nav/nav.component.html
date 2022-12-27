@@ -2,10 +2,28 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
 
-        <button type="button" id="sidebarCollapse" class="btn btn-info">
-            <i class="fas fa-align-left"></i>
-            <span>Filters</span>
-        </button>
+        <div>   
+            <button type="button" id="sidebarCollapse" class="btn btn-info">
+                <i class="fas fa-align-left"></i>
+                <span>Filters</span>
+            </button>
+        </div>
+
+        <div>
+            <label  class="form-label" for="">Entry Date: </label>
+            <input class="form-control" type="date" name="entry" [formControl]="entry" id="entry">
+        </div>
+        <div>
+            <label  class="form-label" for="">Exit Date: </label>
+            <input class="form-control" type="date" name="exit" [formControl]="exit" id="exit">
+        </div>
+
+        <div >
+            <button type="button" class="btn btn-primary" (click)="quote()">
+                Quote
+            </button>
+        </div>
+
         <div class="form-check form-switch">
             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModal">
                 Create new parking
