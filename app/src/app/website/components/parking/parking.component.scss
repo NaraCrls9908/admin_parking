@@ -5,6 +5,21 @@
     height: 40px;
 }
 
+.icon-bg-mobile {
+    background-color: rgb(3, 0, 49);
+    border-radius: 60%;
+    width: 30px;
+    height: 30px;
+}
+
+
+.card-title-mobile {
+    font-size: 18px;
+    font-weight: 600;
+    color: rgb(3, 0, 49); ;
+}
+
+
 li {
     list-style: none;
 }
@@ -38,8 +53,21 @@ li svg {
     color:  rgb(27, 60, 168);
 }
 
+
+.price-mobile {
+    font-size: 12px;
+    font-weight: light;
+    color:  rgb(3, 0, 49);
+}
+
+.priceMonth-mobile {
+    font-size: 14px;
+    font-weight: bold;
+    color:  rgb(27, 60, 168);
+}
+
 .show-mobile {
-    display: block;
+    display: flex;
 }
 
 .hide-mobile {
@@ -53,7 +81,7 @@ li svg {
       display: none;
     }
     .hide-mobile {
-      display: block;
+      display: flex;
     }
   }
   

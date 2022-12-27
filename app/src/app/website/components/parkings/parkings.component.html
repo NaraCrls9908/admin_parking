@@ -111,7 +111,7 @@
             <app-parking (parkingId)="onShowDetail($event)" [months]="months" class="parking" *ngFor="let parking of parkings; let i = index" [parking]="parking" [id]="i" ></app-parking>
         </div>
         <div class="parkingsGrid" *ngIf="aux_filters == 2">
-            <app-not-found></app-not-found>
+            <p>Parkings not found</p>
         </div>
 </div>
 
