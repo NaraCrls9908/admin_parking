@@ -2,11 +2,28 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import multer from 'multer';
 dotenv.config();
 const port = 8080;
 const app = express();
 app.use(express.json());
 app.use(cors());
+app.use(express.static("./public"));
+let file;
+const storage = multer.diskStorage({
+    filename: function (res, file, cb) {
+        const ext = file.originalname.split(".").pop();
+        const fileName = Date.now();
+        file = `${fileName}.${ext}`;
+        file = file.toString();
+        namingFile(file);
+        cb(null, `${fileName}.${ext}`);
+    },
+    destination: function (res, file, cb) {
+        cb(null, `./public`);
+    },
+});
+const upload = multer({ storage });
 let parkings = [
     {
         id: 123,
@@ -15,7 +32,7 @@ let parkings = [
         score: 3.8,
         price: 100,
         type: 'Public',
-        images: ['foto1', 'foto2', 'foto3'],
+        images: ['1.jpg', '2.jpg'],
         description: 'Cheap & nice parking with surveillance cameras. Parking on Ground floor'
     },
     {
@@ -25,7 +42,7 @@ let parkings = [
         score: 4.2,
         price: 175,
         type: 'Public',
-        images: ['foto1', 'foto2', 'foto3'],
+        images: ['3.jpg', '4.jpg'],
         description: 'High security parking for those who are looking for his safety.'
     },
     {
@@ -35,7 +52,7 @@ let parkings = [
         score: 4.8,
         price: 200,
         type: 'Private',
-        images: ['foto1', 'foto2', 'foto3'],
+        images: ['5.jpg', '6.jpg'],
         description: 'High luxury and security parking. Private parking with surveillance cameras, private parking for your car, aditionali we can wash your car.'
     }
 ];
@@ -43,6 +60,14 @@ let parkings_filtered;
 // Is my API working?
 app.get('/', (req, res) => {
     res.send("Hi! I'm your API and I'm working");
+});
+app.post("/parkings/upload/img/:id", upload.single("myFile"), (req, res) => {
+    imgsToParking(parseInt(req.params.id));
+    res.send({ title: "Response of parkings/upload/img/", status: "Ok", message: "Image has been posted.", data: [], type: "POST" });
+});
+app.delete("/parkings/delete/img/:id/:imgName", (req, res) => {
+    deleteImg(parseInt(req.params.id), req.params.imgName);
+    res.send({ title: "Response of parkings/delete/img/", status: "Ok", message: "Image has been deleted.", data: [], type: "DELETE" });
 });
 // Routes for parkings
 // Get all parkings
@@ -102,6 +127,34 @@ app.get('/parkings/filters', (req, res) => {
         res.send({ title: "Response of parkings/filtered", status: "Ok", message: "Data of parkings with filters has been given.", data: parkings_filtered, type: "GET" });
 });
 // Fuctions to manage parkings -> array
+let a;
+function namingFile(nombre) {
+    a = nombre;
+    console.log("a de archivo-> " + a);
+    return a;
+}
+function imgsToParking(id) {
+    let oneParking;
+    parkings.forEach((parking) => {
+        if (parking.id == id) {
+            oneParking = parking;
+        }
+    });
+    if (oneParking.images == null)
+        oneParking.images = a;
+    else
+        oneParking.images.push(a);
+}
+function deleteImg(id, imgName) {
+    parkings.forEach((parking) => {
+        if (parking.id == id) {
+            parking.images.forEach((img, index) => {
+                if (img == imgName)
+                    parking.images.splice(index, 1);
+            });
+        }
+    });
+}
 // Delete one element
 function deleteParking(id) {
     parkings.forEach((parking, i) => {
