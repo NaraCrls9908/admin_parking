@@ -1,26 +1,26 @@
 # admin_parking
 
-## Proyecto de prueba Kalyptio
-### Tu nombre aqui
+## Test project for Kalyptio
+### Your name here
 
-#### Como levantar el proyecto admin_parking
+#### How to run the project admin_parking
 
-* Descargamos el proyecto
-* Descomprimimos el archivo .zip
+* We need to download the project
+* Uncompress the file .zip
 
-Una vez que hayamos hecho eso y tengamos ubicado el proyecto veremos 2 carpetas
+Once we have done, we need to locate de project and look for these two folders
 * APP
 * API
 
-Para levantar la api
-* Abrimos una terminal con la dirección de la carpeta API y corremos los comandos
+To run the API
+* We open a terminarl with the path of the folder from API and put these two commands
   ** npm install
   ** npm run build
   ** node dist/app.js
   
- Con esos comando compilamos la API y la levantamos, si todo está bien nos dira que ha sido levantada en el puerto 8080, y accedemos a traves de http://localhost:8080/ donde tendremos un mensaje de confirmación
+ The API should be already running. If it's okay we can open it in a browser in http://localhost:8080/ this will show a message that is working
  
-Para levantar el proyecto web
-** Abrimos una terminal con la dirección de la carpeta APP y corremos los comandos
+To run the web app
+* We open a terminarl with the path of the folder from APP and put these two commands
   ** npm install
   ** ng serve
