@@ -36,6 +36,8 @@ export class ParkingComponent {
   images = new FormControl();
   description = new FormControl();
 
+  priceMonths: number = 1200
+
   @Output() parkingId = new EventEmitter<number>(); 
 
   constructor(private parkingService: ParkingService){}
