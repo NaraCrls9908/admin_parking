@@ -8,6 +8,7 @@ import { ParkingsComponent } from './components/parkings/parkings.component';
 import { ParkingComponent } from './components/parking/parking.component';
 import { NavComponent } from './components/nav/nav.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
     declarations: [
@@ -16,6 +17,7 @@ import { ReactiveFormsModule } from '@angular/forms';
       ParkingsComponent,
       ParkingComponent,
       NavComponent,
+      NotFoundComponent
     ],
     imports: [
       CommonModule,

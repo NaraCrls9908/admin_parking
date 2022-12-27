@@ -38,6 +38,8 @@ p {
     margin: 40px 0;
 }
 
+
+
 /* ---------------------------------------------------
     SIDEBAR STYLE
 ----------------------------------------------------- */
@@ -120,9 +122,12 @@ a[data-toggle="collapse"] {
 }
 
 .parkingsGrid{
+    display: grid;
     margin-top: 10px;
     margin-bottom: 10px;
+    grid-gap: 15px;
 }
+
 
 .parking{
     // position: relative;

@@ -37,3 +37,33 @@ li svg {
     font-weight: bolder;
     color:  rgb(27, 60, 168);
 }
+
+.show-mobile {
+    display: block;
+}
+
+.hide-mobile {
+    display: none;
+}
+
+
+  /* Medium only */
+  @media screen and (min-width: 40em) and (max-width: 63.9375em) {
+    .show-mobile {
+      display: none;
+    }
+    .hide-mobile {
+      display: block;
+    }
+  }
+  
+  /* Large and up */
+  @media screen and (min-width: 64em) {
+    .show-mobile {
+      display: none;
+    }
+    .hide-mobile {
+      display: block;
+    }
+  }
+  

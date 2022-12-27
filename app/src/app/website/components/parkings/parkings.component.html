@@ -106,12 +106,12 @@
 
     <!-- Page Content  -->
     <div id="content">
-        <app-nav></app-nav>
+        <app-nav (monthDifference)="calculatePriceTotal($event)" ></app-nav>
         <div class="parkingsGrid">
-            <app-parking (parkingId)="onShowDetail($event)" class="parking" *ngFor="let parking of parkings; let i = index" [parking]="parking" [id]="i" ></app-parking>
+            <app-parking (parkingId)="onShowDetail($event)" [months]="months" class="parking" *ngFor="let parking of parkings; let i = index" [parking]="parking" [id]="i" ></app-parking>
         </div>
         <div class="parkingsGrid" *ngIf="aux_filters == 2">
-            <h5>Data not found</h5>
+            <app-not-found></app-not-found>
         </div>
 </div>
 

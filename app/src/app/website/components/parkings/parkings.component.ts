@@ -63,6 +63,7 @@ export class ParkingsComponent {
 
   showParkingDetail = false;
   parkingId: number = 0;
+  months: number = 1;
 
   constructor(private parkingService: ParkingService){}
   
@@ -128,19 +129,27 @@ export class ParkingsComponent {
     ground_floor = this.ground_floor.value ? "Ground Floor" : null;
     battery = this.battery.value ? "Battery-shaped places" : null;
 
-    amenities = surv_cam ? surv_cam + "," : "",
-    amenities += apartment ? apartment + "," : "",
-    amenities += private_parking ? private_parking + "," : "",
-    amenities += parking_ceiling ? parking_ceiling + "," : "",
-    amenities += ground_floor ? ground_floor + "," : "",
-    amenities += battery ? battery + "," : "",
+    amenities = surv_cam ? surv_cam + "," : "";
+    amenities += apartment ? apartment + "," : "";
+    amenities += private_parking ? private_parking + "," : "";
+    amenities += parking_ceiling ? parking_ceiling + "," : "";
+    amenities += ground_floor ? ground_floor + "," : "";
+    amenities += battery ? battery + "," : "";
 
+    if( parseInt(min_cost) > parseInt(max_cost) ){
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Max cost should be higher.',
+      })
+    }else{
+      this.parkingService.getParkingsFilters(min_cost, max_cost, type, amenities).subscribe(response =>{
+        this.apiResponse = response;
+        console.log("respuesta de los filtros-> " + this.apiResponse.data)
+        this.parkings = this.apiResponse.data;
+      });
+    }
     
-    this.parkingService.getParkingsFilters(min_cost, max_cost, type, amenities).subscribe(response =>{
-      this.apiResponse = response;
-      console.log("respuesta de los filtros-> " + this.apiResponse.data)
-      this.parkings = this.apiResponse.data;
-    });
 
     if(this.parkings.length == 0) this.aux_filters = 2;
   }
@@ -225,6 +234,10 @@ export class ParkingsComponent {
 
   toggleParkingDetail(){
     this.showParkingDetail = !this.showParkingDetail;
+  }
+
+  calculatePriceTotal(month: number){
+    this.months = month;
   }
   
 }

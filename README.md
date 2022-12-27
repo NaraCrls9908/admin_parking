@@ -14,7 +14,7 @@ Once we have done, we need to locate de project and look for these two folders
 
 To run the API
 * We open a terminarl with the path of the folder from API and put these two commands
-  ** npm install
+  ** npm install --save
   ** npm run build
   ** node dist/app.js
   
@@ -22,5 +22,5 @@ To run the API
  
 To run the web app
 * We open a terminarl with the path of the folder from APP and put these two commands
-  ** npm install
+  ** npm install --save
   ** ng serve

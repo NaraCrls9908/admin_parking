@@ -36,9 +36,13 @@ export class ParkingComponent {
   images = new FormControl();
   description = new FormControl();
 
-  priceMonths: number = 1200
+  priceMonths = 0;
 
   @Output() parkingId = new EventEmitter<number>(); 
+  
+  @Input() set months(month: number){
+    this.calculatePrice(month);
+  };
 
   constructor(private parkingService: ParkingService){}
 
@@ -47,5 +51,10 @@ export class ParkingComponent {
 
   onShowDetail(){
     this.parkingId.emit(this.parking.id);
+  }
+
+  calculatePrice(month:number){
+    let price: number = this.parking.price;
+    this.priceMonths = month * price;
   }
 }

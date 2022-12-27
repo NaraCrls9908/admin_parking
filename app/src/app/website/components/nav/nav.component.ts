@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ParkingService } from 'src/app/services/parking.service';
 import { FormControl } from '@angular/forms';
 import { ApiResponse, Parking } from 'src/app/models/parking.model';
@@ -41,7 +41,9 @@ export class NavComponent {
   entry = new FormControl();
   exit = new FormControl();
 
-  difference: number = 0;
+  difference: number = 1;
+
+  @Output() monthDifference = new EventEmitter<number>();
 
   constructor(private parkingService: ParkingService){}
 
@@ -100,10 +102,8 @@ export class NavComponent {
       }else{
         let differenceMoth = (yearDateExit - yearDateEntry) * 12; 
         differenceMoth += monthDateExit - monthDateEntry;
-        this.difference = differenceMoth  
-        if(differenceMoth == 0){
-          differenceMoth = 1;
-        }
+        this.difference = differenceMoth;
+        this.monthDifference.emit(this.difference);
         
       }
   
